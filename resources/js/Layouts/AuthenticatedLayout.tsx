@@ -8,25 +8,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/Components/ui/dropdown-menu";
-import {
-  Activity,
-  ArrowUpRight,
-  CircleUser,
-  CreditCard,
-  DollarSign,
-  Menu,
-  Package2,
-  Search,
-  Users,
-} from "lucide-react";
+import { CircleUser, Menu, Package2, Search } from "lucide-react";
 import { Button } from "@/Components/ui/button";
 import { Input } from "@/Components/ui/input";
-import ApplicationLogo from "@/Components/ApplicationLogo";
-import Dropdown from "@/Components/Dropdown";
-import NavLink from "@/Components/NavLink";
-import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link } from "@inertiajs/react";
 import { User } from "@/types";
+import { ModeToggle } from "@/Components/ThemeToggle";
 
 export default function Authenticated({
   user,
@@ -37,7 +24,7 @@ export default function Authenticated({
     useState(false);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       <div className="border-b">
         <header className="container flex sticky top-0 gap-4 items-center px-4 h-16 sm:px-6 lg:px-8 bg-background md:px-6">
           <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
@@ -103,6 +90,7 @@ export default function Authenticated({
                 />
               </div>
             </form>
+            <ModeToggle />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -115,10 +103,10 @@ export default function Authenticated({
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuLabel>{user.name}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
-                  <Link href={route("profile.edit")}>Profile</Link>
+                  <Link href={route("profile.edit")}>Settings</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>Support</DropdownMenuItem>
                 <DropdownMenuSeparator />
@@ -133,7 +121,9 @@ export default function Authenticated({
         </header>
       </div>
 
-      <main>{children}</main>
+      <main className="flex min-h-[calc(100vh_-_theme(spacing.16))] flex-1 flex-col gap-4 bg-muted/40 p-4 md:gap-8 md:p-10">
+        {children}
+      </main>
     </div>
   );
 }

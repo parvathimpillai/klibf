@@ -1,10 +1,21 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import UserInformation from "./Partials/UserInformation";
 import DeleteUserForm from "./Partials/DeleteUserForm";
 import UpdatePasswordForm from "./Partials/UpdatePasswordForm";
 import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationForm";
 import { Head } from "@inertiajs/react";
 import { PageProps } from "@/types";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/Components/ui/card";
+import { Input } from "@/Components/ui/input";
+import { Link } from "@inertiajs/react";
+import { Button } from "@/Components/ui/button";
+import { Checkbox } from "@/Components/ui/checkbox";
 
 export default function Edit({
   auth,
@@ -21,22 +32,33 @@ export default function Edit({
       }
     >
       <Head title="Profile" />
-
-      <div className="py-12">
-        <div className="mx-auto space-y-6 max-w-7xl sm:px-6 lg:px-8">
+      <div className="grid gap-2 mx-auto w-full max-w-6xl">
+        <h1 className="text-3xl font-semibold">Settings</h1>
+      </div>
+      <div className="mx-auto grid w-full max-w-6xl items-start gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">
+        <nav
+          className="grid gap-4 text-sm text-muted-foreground"
+          x-chunk="dashboard-04-chunk-0"
+        >
+          <Link href="#" className="font-semibold text-primary">
+            General
+          </Link>
+          <Link href="#">Security</Link>
+          <Link href="#">Integrations</Link>
+          <Link href="#">Support</Link>
+          <Link href="#">Organizations</Link>
+          <Link href="#">Advanced</Link>
+        </nav>
+        <div className="grid gap-6">
           <UpdateProfileInformationForm
             mustVerifyEmail={mustVerifyEmail}
             status={status}
             className="max-w-xl"
           />
 
-          <div className="p-4 bg-white shadow sm:p-8 sm:rounded-lg">
-            <UpdatePasswordForm className="max-w-xl" />
-          </div>
+          <UpdatePasswordForm className="max-w-xl" />
 
-          <div className="p-4 bg-white shadow sm:p-8 sm:rounded-lg">
-            <DeleteUserForm className="max-w-xl" />
-          </div>
+          <DeleteUserForm className="max-w-xl" />
         </div>
       </div>
     </AuthenticatedLayout>
