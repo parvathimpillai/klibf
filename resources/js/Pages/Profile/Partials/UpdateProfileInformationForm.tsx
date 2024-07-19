@@ -8,7 +8,8 @@ import {
   CardTitle,
 } from "@/Components/ui/card";
 import { Input } from "@/Components/ui/input";
-import { Link, useForm, usePage } from "@inertiajs/react";
+import { Label } from "@/Components/ui/label";
+import { useForm, usePage } from "@inertiajs/react";
 import { FormEventHandler } from "react";
 import { Transition } from "@headlessui/react";
 import { PageProps } from "@/types";
@@ -49,12 +50,9 @@ export default function Component({
       </CardHeader>
       <CardContent>
         <form onSubmit={submit}>
-          <label
-            htmlFor="name"
-            className="block text-sm font-medium text-gray-700"
-          >
+          <Label htmlFor="name" className="block text-sm font-medium">
             Name
-          </label>
+          </Label>
 
           <Input
             id="name"
@@ -63,12 +61,9 @@ export default function Component({
             required
             autoComplete="name"
           />
-          <label
-            htmlFor="email"
-            className="block mt-4 text-sm font-medium text-gray-700"
-          >
+          <Label htmlFor="email" className="block mt-4 text-sm font-medium">
             Email
-          </label>
+          </Label>
           <Input
             id="email"
             type="email"

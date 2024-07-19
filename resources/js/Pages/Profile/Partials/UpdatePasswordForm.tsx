@@ -1,8 +1,8 @@
 import { useRef, FormEventHandler } from "react";
 
 import InputError from "@/Components/InputError";
-import InputLabel from "@/Components/InputLabel";
-import PrimaryButton from "@/Components/PrimaryButton";
+import { Label } from "@/Components/ui/label";
+
 import { Input } from "@/Components/ui/input";
 import { useForm } from "@inertiajs/react";
 import { Transition } from "@headlessui/react";
@@ -63,7 +63,7 @@ export default function UpdatePasswordForm({
       <CardContent>
         <form className="mt-6 space-y-6">
           <div>
-            <InputLabel htmlFor="current_password" value="Current Password" />
+            <Label htmlFor="current_password">Current Password</Label>
             <Input
               id="current_password"
               ref={currentPasswordInput}
@@ -76,7 +76,7 @@ export default function UpdatePasswordForm({
             <InputError message={errors.current_password} className="mt-2" />
           </div>
           <div>
-            <InputLabel htmlFor="password" value="New Password" />
+            <Label htmlFor="password">Password</Label>
             <Input
               id="password"
               ref={passwordInput}
@@ -89,10 +89,7 @@ export default function UpdatePasswordForm({
             <InputError message={errors.password} className="mt-2" />
           </div>
           <div>
-            <InputLabel
-              htmlFor="password_confirmation"
-              value="Confirm Password"
-            />
+            <Label htmlFor="password_confirmation">Confirm Password</Label>
             <Input
               id="password_confirmation"
               value={data.password_confirmation}
@@ -119,7 +116,7 @@ export default function UpdatePasswordForm({
           leave="transition ease-in-out"
           leaveTo="opacity-0"
         >
-          <p className="text-sm text-gray-600">Saved.</p>
+          <p className="ml-5 text-sm text-gray-600">Saved.</p>
         </Transition>
       </CardFooter>
     </Card>
