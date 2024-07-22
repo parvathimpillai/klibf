@@ -1,27 +1,8 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import { PageProps } from "@/types";
-import {
-  Activity,
-  ArrowUpRight,
-  CircleUser,
-  CreditCard,
-  DollarSign,
-  Menu,
-  Package2,
-  Search,
-  Users,
-} from "lucide-react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/Components/ui/card";
-import TicketsLayout from "@/Components/tickets/TicketsLayout";
 
-export default function Dashboard({ auth }: PageProps) {
+export default function Dashboard({ auth, props }: PageProps) {
   return (
     <AuthenticatedLayout
       user={auth.user}
@@ -36,7 +17,10 @@ export default function Dashboard({ auth }: PageProps) {
       <div className="pt-6">
         <div className="mx-auto max-w-7xl">
           <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <TicketsLayout />
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem
+            soluta doloribus consectetur corrupti minus quia distinctio
+            quibusdam omnis, suscipit obcaecati exercitationem maiores ex
+            assumenda qui voluptatibus dicta fugit quas eos.
           </div>
         </div>
       </div>

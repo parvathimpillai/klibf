@@ -44,9 +44,10 @@ export default function LoginForm({
       <Head title="Se connecter" />
       <Card className="mx-auto max-w-sm">
         <CardHeader>
-          <CardTitle className="text-2xl">Se connecter</CardTitle>
+          <CardTitle className="text-2xl">Login</CardTitle>
           <CardDescription>
-            Entrez votre email ci-dessous pour vous connecter à votre compte
+            {/* Entrez votre email ci-dessous pour vous connecter à votre compte, trad to english */}
+            Enter your email below to login to your account.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -68,12 +69,12 @@ export default function LoginForm({
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
-                  <Label htmlFor="password">Mot de passe</Label>
+                  <Label htmlFor="password">Password</Label>
                   <Link
                     href={route("password.request")}
                     className="inline-block ml-auto text-sm underline"
                   >
-                    Mot de passe oublié ?
+                    Forgot your password?
                   </Link>
                 </div>
                 <Input
@@ -88,7 +89,7 @@ export default function LoginForm({
                 <InputError message={errors.password} className="mt-2" />
               </div>
               <Button type="submit" className="w-full">
-                Se connecter
+                Login
               </Button>
             </div>
           </form>

@@ -57,6 +57,16 @@ export default function ForgotPassword({ status }: { status?: string }) {
           </CardContent>
         </form>
         <CardFooter className="px-6 py-4 border-t">
+          {/* add secondary button to cancel and return */}
+          <Button
+            className="mr-2"
+            variant={"secondary"}
+            onClick={() => {
+              history.back();
+            }}
+          >
+            Cancel
+          </Button>
           <Button onClick={submit}>Email Password Reset Link</Button>
         </CardFooter>
       </Card>
