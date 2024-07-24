@@ -59,6 +59,7 @@ To get started with the Laravel Shadcn Starter Kit with Inertia.js, follow these
    npm run dev
    ```
 
+
 ## Usage
 Once the installation is complete, you can access your application at `http://localhost:8000`. You can start building your application by creating new routes, controllers, and views using Inertia.js and Shadcn components.
 

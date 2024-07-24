@@ -66,7 +66,11 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+
+        // update the user with the specified id
+        $user = User::find($id);
+        $user->update($request->all());
+        return redirect()->route('users.index')->with('success', 'User updated successfully');
     }
 
     /**

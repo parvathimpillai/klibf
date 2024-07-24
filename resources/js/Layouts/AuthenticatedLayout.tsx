@@ -25,7 +25,7 @@ export default function Authenticated({
 
   return (
     <div className="min-h-screen">
-      <div className="border-b">
+      <div className="sticky top-0 border-b">
         <header className="container flex sticky top-0 gap-4 items-center px-4 h-16 sm:px-6 lg:px-8 bg-background md:px-6">
           <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
             <Link
@@ -121,7 +121,7 @@ export default function Authenticated({
         </header>
       </div>
 
-      <main className="flex min-h-[calc(100vh_-_theme(spacing.20))] flex-1 flex-col gap-4 bg-muted/40 p-4 md:gap-8 md:p-10">
+      <main className="flex min-h-[calc(100vh_-_theme(spacing.16))] flex-1 flex-col gap-4 bg-muted/40 p-4 md:gap-8 md:p-10">
         {children}
       </main>
     </div>

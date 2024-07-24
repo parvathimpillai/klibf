@@ -5,26 +5,28 @@ use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Models\User; // Add this line
 
 Route::redirect('/', 'dashboard');
 
+Route::group(['middleware' => ['auth:sanctum']], function () {
 
-Route::get(
-    '/dashboard',
-    function () {
-        return Inertia::render('Dashboard');
-    }
-)->middleware(array( 'auth', 'verified' ))->name('dashboard');
+        // DASHBOARD
+        Route::get('dashboard', function () {
+            return Inertia::render('Dashboard');
+        })->name('dashboard');
 
-Route::middleware('auth')->group(
-    function () {
+        // POFILE
         Route::get('/profile', array( ProfileController::class, 'edit' ))->name('profile.edit');
         Route::patch('/profile', array( ProfileController::class, 'update' ))->name('profile.update');
         Route::delete('/profile', array( ProfileController::class, 'destroy' ))->name('profile.destroy');
-        // route to /users with User controller
+
+        // USERS
         Route::get('/users', array( UserController::class, 'index' ))->name('users.index');
-    }
-);
+        // edit user
+        Route::get('/users/{id}/', array( UserController::class, 'edit' ))->name('users.edit');
+        // update user
+        Route::patch('/users/{id}/', array( UserController::class, 'update' ))->name('users.update');
+});
+
 
 require __DIR__ . '/auth.php';

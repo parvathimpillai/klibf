@@ -96,7 +96,15 @@ export default function Users({ auth }: PageProps) {
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            <DropdownMenuItem>Edit</DropdownMenuItem>
+                            <DropdownMenuItem>
+                              <Link
+                                // route /users/{id}/edit
+                                href={`/users/${user.id}`}
+                                className="flex items-center space-x-2"
+                              >
+                                Edit
+                              </Link>
+                            </DropdownMenuItem>
                             <DropdownMenuItem>Delete</DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>

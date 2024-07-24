@@ -24,6 +24,7 @@ export default function Component({
   className?: string;
 }) {
   const user = usePage<PageProps>().props.auth.user;
+  console.log(user);
 
   const { data, setData, patch, errors, processing, recentlySuccessful } =
     useForm({
