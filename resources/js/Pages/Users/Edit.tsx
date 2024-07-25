@@ -13,7 +13,14 @@ import {
 
 export default function EditUser() {
   const { user } = usePage().props as unknown as {
-    user: { name: string; email: string; id: number };
+    user: {
+      data: {
+        id: number;
+        name: string;
+        email: string;
+        email_verified_at: string;
+      };
+    };
   }; // Define user type
 
   console.log(user.data);
@@ -34,7 +41,7 @@ export default function EditUser() {
 
   return (
     <AuthenticatedLayout
-      user={user}
+      user={user.data}
       header={
         <h2 className="text-xl font-semibold leading-tight text-gray-800">
           Edit User
