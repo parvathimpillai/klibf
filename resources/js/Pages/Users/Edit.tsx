@@ -28,6 +28,7 @@ export default function EditUser() {
     name: user.data.name,
     email: user.data.email,
     id: user.data.id,
+    password: "",
   });
 
   const submit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -81,6 +82,20 @@ export default function EditUser() {
                   <div className="text-red-500">{errors.email}</div>
                 )}
               </div>
+              <div className="mt-4">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  value={data.password} // Bind input value to form state
+                  onChange={(e) => setData("password", e.target.value)}
+                  required
+                />
+                {errors.password && (
+                  <div className="text-red-500">{errors.password}</div>
+                )}
+              </div>
+
               <CardFooter>
                 <Button type="submit" disabled={processing}>
                   Save
