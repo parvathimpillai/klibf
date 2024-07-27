@@ -25,8 +25,8 @@ export default function Authenticated({
 
   return (
     <div className="min-h-screen">
-      <div className="sticky top-0 border-b">
-        <header className="container flex sticky top-0 gap-4 items-center px-4 h-16 sm:px-6 lg:px-8 bg-background md:px-6">
+      <div className="sticky top-0 border-b bg-background">
+        <header className="container flex sticky top-0 gap-4 items-center px-4 h-16 sm:px-6 lg:px-8 md:px-6">
           <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
             <Link
               href="#"
