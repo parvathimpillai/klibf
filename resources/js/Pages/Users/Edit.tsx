@@ -2,7 +2,10 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, useForm, usePage } from "@inertiajs/react";
 import { Button } from "@/Components/ui/button";
 import { Input } from "@/Components/ui/input";
+import { FormEventHandler } from "react";
+
 import { Label } from "@/Components/ui/label";
+import { toast } from "sonner";
 import {
   Card,
   CardContent,
@@ -23,21 +26,30 @@ export default function EditUser() {
     };
   }; // Define user type
 
-  console.log(user.data);
-  const { data, setData, put, errors, processing } = useForm({
+  const { data, setData, patch, errors, processing } = useForm({
     name: user.data.name,
     email: user.data.email,
     id: user.data.id,
-    password: "",
   });
 
-  const submit = (e: React.FormEvent<HTMLFormElement>) => {
+  const submit: FormEventHandler = (e) => {
     e.preventDefault();
-    put(route("users.update", user.data.id), {
-      onSuccess: () => {
-        // Handle success (e.g., redirect or show a message)
-      },
-    });
+    if (data.name !== user.data.name || data.email !== user.data.email) {
+      patch(route("users.update", user.data.id), {
+        onSuccess: () => {
+          toast("User updated", {
+            description: "User information has been updated successfully.",
+            action: {
+              label: "Close",
+              onClick: () => {
+                toast.dismiss();
+              },
+            },
+            position: "top-right",
+          });
+        },
+      });
+    }
   };
 
   return (
@@ -50,7 +62,7 @@ export default function EditUser() {
       }
     >
       <Head title="Edit User" />
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto w-full max-w-7xl">
         <Card>
           <CardHeader>
             <CardTitle>Edit User Information</CardTitle>
@@ -82,22 +94,9 @@ export default function EditUser() {
                   <div className="text-red-500">{errors.email}</div>
                 )}
               </div>
-              <div className="mt-4">
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  value={data.password} // Bind input value to form state
-                  onChange={(e) => setData("password", e.target.value)}
-                  required
-                />
-                {errors.password && (
-                  <div className="text-red-500">{errors.password}</div>
-                )}
-              </div>
 
               <CardFooter>
-                <Button type="submit" disabled={processing}>
+                <Button type="button" onClick={submit} disabled={processing}>
                   Save
                 </Button>
               </CardFooter>

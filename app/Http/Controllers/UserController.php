@@ -70,7 +70,11 @@ class UserController extends Controller
         // update the user with the specified id
         $user = User::find($id);
         $user->update($request->all());
-        return redirect()->route('users.index')->with('success', 'User updated successfully');
+        // return json  with response
+        return Inertia::render('Users/Edit', [
+            'user' => new UserResource($user),
+            'message' => 'User updated successfully'
+        ]);
     }
 
     /**
