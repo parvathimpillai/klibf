@@ -80,8 +80,15 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
+        // delete the user with the specified id
+        $id = $request->id;
+        dd($id);
+        User::destroy($id);
+        // return json with response
+        return Inertia::render('Users/Index', [
+            'message' => 'User deleted successfully'
+        ]);
     }
 }

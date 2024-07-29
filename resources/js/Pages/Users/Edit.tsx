@@ -1,18 +1,10 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, useForm, usePage } from "@inertiajs/react";
-import { Button } from "@/Components/ui/button";
-import { Input } from "@/Components/ui/input";
-import { FormEventHandler } from "react";
+import { Head, usePage } from "@inertiajs/react";
+import { Link } from "@inertiajs/react";
 
-import { Label } from "@/Components/ui/label";
-import { toast } from "sonner";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardFooter,
-} from "@/Components/ui/card";
+import DeleteUserForm from "../Profile/Partials/DeleteUserForm";
+import UpdatePasswordForm from "../Profile/Partials/UpdatePasswordForm";
+import UpdateProfileInformationForm from "../Profile/Partials/UpdateProfileInformationForm";
 
 export default function EditUser() {
   const { user } = usePage().props as unknown as {
@@ -26,83 +18,44 @@ export default function EditUser() {
     };
   }; // Define user type
 
-  const { data, setData, patch, errors, processing } = useForm({
-    name: user.data.name,
-    email: user.data.email,
-    id: user.data.id,
-  });
-
-  const submit: FormEventHandler = (e) => {
-    e.preventDefault();
-    if (data.name !== user.data.name || data.email !== user.data.email) {
-      patch(route("users.update", user.data.id), {
-        onSuccess: () => {
-          toast("User updated", {
-            description: "User information has been updated successfully.",
-            action: {
-              label: "Close",
-              onClick: () => {
-                toast.dismiss();
-              },
-            },
-            position: "top-right",
-          });
-        },
-      });
-    }
-  };
-
   return (
     <AuthenticatedLayout
       user={user.data}
       header={
         <h2 className="text-xl font-semibold leading-tight text-gray-800">
-          Edit User
+          Profile
         </h2>
       }
     >
-      <Head title="Edit User" />
-      <div className="mx-auto w-full max-w-7xl">
-        <Card>
-          <CardHeader>
-            <CardTitle>Edit User Information</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={submit}>
-              <div>
-                <Label htmlFor="name">Name</Label>
-                <Input
-                  id="name"
-                  value={data.name} // Bind input value to form state
-                  onChange={(e) => setData("name", e.target.value)}
-                  required
-                />
-                {errors.name && (
-                  <div className="text-red-500">{errors.name}</div>
-                )}
-              </div>
-              <div className="mt-4">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={data.email} // Bind input value to form state
-                  onChange={(e) => setData("email", e.target.value)}
-                  required
-                />
-                {errors.email && (
-                  <div className="text-red-500">{errors.email}</div>
-                )}
-              </div>
+      <Head title="Profile" />
 
-              <CardFooter>
-                <Button type="button" onClick={submit} disabled={processing}>
-                  Save
-                </Button>
-              </CardFooter>
-            </form>
-          </CardContent>
-        </Card>
+      <div className="mx-auto grid w-full max-w-6xl items-start gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">
+        <nav
+          className="grid sticky top-32 gap-4 text-sm text-muted-foreground"
+          x-chunk="dashboard-04-chunk-0"
+        >
+          <h1 className="text-3xl font-semibold text-primary">Settings</h1>
+          <Link href="#" className="font-semibold text-primary">
+            General
+          </Link>
+          <Link href="#">Security</Link>
+          <Link href="#">Integrations</Link>
+          <Link href="#">Support</Link>
+          <Link href="#">Organizations</Link>
+          <Link href="#">Advanced</Link>
+        </nav>
+        <div className="grid overflow-auto gap-6">
+          <UpdateProfileInformationForm
+            mustVerifyEmail={false}
+            status={status}
+            className="max-w-xl"
+            user={user.data}
+          />
+
+          <UpdatePasswordForm className="max-w-xl" isAdmin={true} />
+
+          <DeleteUserForm className="max-w-xl" isAdmin={true} />
+        </div>
       </div>
     </AuthenticatedLayout>
   );

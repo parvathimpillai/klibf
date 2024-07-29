@@ -18,8 +18,10 @@ import {
 
 export default function UpdatePasswordForm({
   className = "",
+  isAdmin = false,
 }: {
   className?: string;
+  isAdmin?: boolean;
 }) {
   const passwordInput = useRef<HTMLInputElement>(null);
   const currentPasswordInput = useRef<HTMLInputElement>(null);
@@ -62,19 +64,21 @@ export default function UpdatePasswordForm({
 
       <CardContent>
         <form className="mt-6 space-y-6">
-          <div>
-            <Label htmlFor="current_password">Current Password</Label>
-            <Input
-              id="current_password"
-              ref={currentPasswordInput}
-              value={data.current_password}
-              onChange={(e) => setData("current_password", e.target.value)}
-              type="password"
-              className="block mt-1 w-full"
-              autoComplete="current-password"
-            />
-            <InputError message={errors.current_password} className="mt-2" />
-          </div>
+          {!isAdmin ? (
+            <div>
+              <Label htmlFor="current_password">Current Password</Label>
+              <Input
+                id="current_password"
+                ref={currentPasswordInput}
+                value={data.current_password}
+                onChange={(e) => setData("current_password", e.target.value)}
+                type="password"
+                className="block mt-1 w-full"
+                autoComplete="current-password"
+              />
+              <InputError message={errors.current_password} className="mt-2" />
+            </div>
+          ) : null}
           <div>
             <Label htmlFor="password">Password</Label>
             <Input

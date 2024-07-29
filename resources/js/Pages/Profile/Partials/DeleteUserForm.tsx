@@ -21,11 +21,26 @@ import {
   DialogFooter,
   DialogClose,
 } from "@/Components/ui/dialog";
+import { toast } from "sonner";
 
 export default function DeleteUserForm({
   className = "",
+  isAdmin = false,
+  user = {
+    id: 0,
+    name: "",
+    email: "",
+    email_verified_at: "",
+  },
 }: {
   className?: string;
+  isAdmin?: boolean;
+  user?: {
+    id: number;
+    name: string;
+    email: string;
+    email_verified_at: string;
+  };
 }) {
   const [confirmingUserDeletion, setConfirmingUserDeletion] = useState(false);
   const passwordInput = useRef<HTMLInputElement>(null);
@@ -47,13 +62,37 @@ export default function DeleteUserForm({
 
   const deleteUser: FormEventHandler = (e) => {
     e.preventDefault();
-
-    destroy(route("profile.destroy"), {
-      preserveScroll: true,
-      onSuccess: () => closeModal(),
-      onError: () => passwordInput.current?.focus(),
-      onFinish: () => reset(),
-    });
+    // if is admin, delete user from user.destroy route
+    // else delete user from profile
+    if (isAdmin) {
+      destroy(route("users.destroy", user.id), {
+        preserveScroll: true,
+        onSuccess: () => {
+          toast("User deleted", {
+            description: "The user has been deleted successfully.",
+            position: "top-right",
+          });
+        },
+        onError: () => {
+          toast("User not deleted", {
+            description: "The user has not been deleted. because of error:
+            position: "top-right",
+          });
+        },
+        onFinish: () => reset(),
+      });
+    } else {
+      destroy(route("profile.destroy"), {
+        preserveScroll: true,
+        onSuccess: () => {
+          toast("User deleted", {
+            description: "The user has been deleted successfully.",
+            position: "top-right",
+          });
+        },
+        onError: () => passwordInput.current?.focus(),
+      });
+    }
   };
 
   const closeModal = () => {
@@ -90,33 +129,38 @@ export default function DeleteUserForm({
                 you would like to permanently delete your account.
               </DialogDescription>
             </DialogHeader>
-            <form onSubmit={deleteUser}>
-              <div>
-                <InputLabel
-                  htmlFor="password"
-                  value="Password"
-                  className="sr-only"
-                />
+            {/*  if is admin, no need for password confirmation */}
+            {!isAdmin && (
+              <form onSubmit={deleteUser}>
+                <div>
+                  <InputLabel
+                    htmlFor="password"
+                    value="Password"
+                    className="sr-only"
+                  />
 
-                <Input
-                  id="password"
-                  type="password"
-                  name="password"
-                  ref={passwordInput}
-                  value={data.password}
-                  onChange={(e) => setData("password", e.target.value)}
-                  className="block mt-1 w-full"
-                  placeholder="Password"
-                />
+                  <Input
+                    id="password"
+                    type="password"
+                    name="password"
+                    ref={passwordInput}
+                    value={data.password}
+                    onChange={(e) => setData("password", e.target.value)}
+                    className="block mt-1 w-full"
+                    placeholder="Password"
+                  />
 
-                <InputError message={errors.password} className="mt-2" />
-              </div>
-            </form>
+                  <InputError message={errors.password} className="mt-2" />
+                </div>
+              </form>
+            )}
             <DialogFooter>
               <DialogClose>
                 <Button variant="secondary">Cancel</Button>
               </DialogClose>
-              <Button variant="destructive">Delete Account</Button>
+              <Button onClick={deleteUser} variant="destructive">
+                Delete Account
+              </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>

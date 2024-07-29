@@ -11,21 +11,25 @@ import { Input } from "@/Components/ui/input";
 import { Label } from "@/Components/ui/label";
 import { useForm, usePage } from "@inertiajs/react";
 import { FormEventHandler } from "react";
-import { Transition } from "@headlessui/react";
 import { PageProps } from "@/types";
+import { toast } from "sonner";
 
-export default function Component({
+export default function UpdateProfileInformationForm({
   mustVerifyEmail,
   status,
   className = "",
+  user,
 }: {
   mustVerifyEmail: boolean;
   status?: string;
   className?: string;
+  user: {
+    id: number;
+    name: string;
+    email: string;
+    email_verified_at: string;
+  };
 }) {
-  const user = usePage<PageProps>().props.auth.user;
-  console.log(user);
-
   const { data, setData, patch, errors, processing, recentlySuccessful } =
     useForm({
       name: user.name,
@@ -34,6 +38,16 @@ export default function Component({
   const handleClick = () => {
     // submit the form
     patch(route("profile.update"));
+    toast("Profile information updated", {
+      description: "the profile information has been updated successfully.",
+      action: {
+        label: "Close",
+        onClick: () => {
+          toast.dismiss();
+        },
+      },
+      position: "top-right",
+    });
   };
 
   const submit: FormEventHandler = (e) => {
@@ -77,15 +91,6 @@ export default function Component({
       </CardContent>
       <CardFooter className="px-6 py-4 border-t">
         <Button onClick={handleClick}>Save</Button>
-        <Transition
-          show={recentlySuccessful}
-          enter="transition ease-in-out"
-          enterFrom="opacity-0"
-          leave="transition ease-in-out"
-          leaveTo="opacity-0"
-        >
-          <p className="text-sm text-gray-600">Saved.</p>
-        </Transition>
       </CardFooter>
     </Card>
   );

@@ -45,6 +45,7 @@ export default function Edit({
             mustVerifyEmail={mustVerifyEmail}
             status={status}
             className="max-w-xl"
+            user={auth.user}
           />
 
           <UpdatePasswordForm className="max-w-xl" />
