@@ -46,18 +46,14 @@ export default function Users({ auth }: PageProps) {
   const { users } = usePage<UsersPageProps>().props;
   const pagination = users.meta;
 
-  const { delete: destroy } = useForm({
-    password: "",
-    id: null,
-  });
+  const { delete: destroy } = useForm();
 
   // deleteUser
-  const deleteUser = (id: number) => {
-    // delete user with id
+  const deleteUser = (id: number, name: string) => {
     destroy(route("users.destroy", id), {
       preserveScroll: true,
       onSuccess: () => {
-        toast.success("User deleted successfully");
+        toast.success(`User ${name} deleted successfully`);
       },
     });
   };
@@ -154,7 +150,7 @@ export default function Users({ auth }: PageProps) {
                                 <Button variant="secondary">Cancel</Button>
                               </DialogClose>
                               <Button
-                                onClick={() => deleteUser(user.id)}
+                                onClick={() => deleteUser(user.id, user.name)}
                                 variant="destructive"
                               >
                                 Delete
