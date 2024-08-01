@@ -20,8 +20,6 @@ type PaginationProps = {
 };
 
 export default function Paginations({ pagination, users }: PaginationProps) {
-  console.log(pagination, users);
-
   return (
     <Pagination>
       <PaginationContent>

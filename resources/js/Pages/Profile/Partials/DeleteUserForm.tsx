@@ -26,21 +26,11 @@ import { toast } from "sonner";
 export default function DeleteUserForm({
   className = "",
   isAdmin = false,
-  user = {
-    id: 0,
-    name: "",
-    email: "",
-    email_verified_at: "",
-  },
+  userId,
 }: {
   className?: string;
   isAdmin?: boolean;
-  user?: {
-    id: number;
-    name: string;
-    email: string;
-    email_verified_at: string;
-  };
+  userId?: number;
 }) {
   const [confirmingUserDeletion, setConfirmingUserDeletion] = useState(false);
   const passwordInput = useRef<HTMLInputElement>(null);
@@ -54,6 +44,7 @@ export default function DeleteUserForm({
     errors,
   } = useForm({
     password: "",
+    id: isAdmin ? userId : null,
   });
 
   const confirmUserDeletion = () => {
@@ -65,17 +56,14 @@ export default function DeleteUserForm({
     // if is admin, delete user from user.destroy route
     // else delete user from profile
     if (isAdmin) {
-      destroy(route("users.destroy", user.id), {
+      // send id of user to delete
+      destroy(route("users.destroy", userId), {
         preserveScroll: true,
-        onSuccess: () => {
-          toast("User deleted", {
-            description: "The user has been deleted successfully.",
-            position: "top-right",
-          });
-        },
+        onSuccess: () => {},
         onError: () => {
           toast("User not deleted", {
-            description: "The user has not been deleted. because of error:
+            description:
+              "The user has not been deleted. because of error, please try again.",
             position: "top-right",
           });
         },
@@ -84,12 +72,7 @@ export default function DeleteUserForm({
     } else {
       destroy(route("profile.destroy"), {
         preserveScroll: true,
-        onSuccess: () => {
-          toast("User deleted", {
-            description: "The user has been deleted successfully.",
-            position: "top-right",
-          });
-        },
+        onSuccess: () => {},
         onError: () => passwordInput.current?.focus(),
       });
     }

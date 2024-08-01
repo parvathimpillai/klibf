@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Resources\User\UserResource;
+use Illuminate\Support\Facades\Redirect;
 
 class UserController extends Controller
 {
@@ -82,13 +83,12 @@ class UserController extends Controller
      */
     public function destroy(Request $request)
     {
-        // delete the user with the specified id
+        // get the id parameter from the request
         $id = $request->id;
-        dd($id);
+
         User::destroy($id);
         // return json with response
-        return Inertia::render('Users/Index', [
-            'message' => 'User deleted successfully'
-        ]);
+        // redirect to route('users.index'); whit message and render inertia page
+        return Redirect::route('users.index')->with('message', 'User deleted successfully');
     }
 }

@@ -1,8 +1,17 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link } from "@inertiajs/react";
+import { Head, Link, useForm } from "@inertiajs/react";
 import { PageProps, UsersPageProps } from "@/types";
 import { usePage } from "@inertiajs/react";
-
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+  DialogClose,
+} from "@/Components/ui/dialog";
 import { Badge } from "@/Components/ui/badge";
 import {
   Card,
@@ -31,11 +40,29 @@ import {
 import Paginations from "@/Components/Pagination";
 
 import { MoreHorizontal } from "lucide-react";
+import { toast } from "sonner";
 
 export default function Users({ auth }: PageProps) {
   const { users } = usePage<UsersPageProps>().props;
   const pagination = users.meta;
-  console.log(pagination);
+
+  const { delete: destroy } = useForm({
+    password: "",
+    id: null,
+  });
+
+  // deleteUser
+  const deleteUser = (id: number) => {
+    // delete user with id
+    destroy(route("users.destroy", id), {
+      preserveScroll: true,
+      onSuccess: () => {
+        toast.success("User deleted successfully");
+      },
+    });
+  };
+
+  console.log(usePage<UsersPageProps>().props);
 
   return (
     <AuthenticatedLayout user={auth.user}>
@@ -83,31 +110,58 @@ export default function Users({ auth }: PageProps) {
                         {user.email}
                       </TableCell>
                       <TableCell className="text-right">
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button
-                              aria-haspopup="true"
-                              size="icon"
-                              variant="ghost"
-                            >
-                              <MoreHorizontal className="w-4 h-4" />
-                              <span className="sr-only">Toggle menu</span>
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            <DropdownMenuItem>
-                              <Link
-                                // route /users/{id}/edit
-                                href={`/users/${user.id}`}
-                                className="flex items-center space-x-2"
+                        <Dialog>
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button
+                                aria-haspopup="true"
+                                size="icon"
+                                variant="ghost"
                               >
-                                Edit
-                              </Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>Delete</DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
+                                <MoreHorizontal className="w-4 h-4" />
+                                <span className="sr-only">Toggle menu</span>
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                              <DropdownMenuItem>
+                                <Link
+                                  // route /users/{id}/edit
+                                  href={`/users/${user.id}`}
+                                  className="block w-full"
+                                >
+                                  Edit
+                                </Link>
+                              </DropdownMenuItem>
+                              <DropdownMenuItem>
+                                <DialogTrigger>Delete</DialogTrigger>
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                          <DialogContent>
+                            <DialogHeader>
+                              <DialogTitle>
+                                Are you sure you want to delete the user{" "}
+                                {user.name}?
+                              </DialogTitle>
+                              <DialogDescription>
+                                Once the user is deleted, all of its resources
+                                and data will be permanently deleted.
+                              </DialogDescription>
+                            </DialogHeader>
+                            <DialogFooter>
+                              <DialogClose>
+                                <Button variant="secondary">Cancel</Button>
+                              </DialogClose>
+                              <Button
+                                onClick={() => deleteUser(user.id)}
+                                variant="destructive"
+                              >
+                                Delete
+                              </Button>
+                            </DialogFooter>
+                          </DialogContent>
+                        </Dialog>
                       </TableCell>
                     </TableRow>
                   ))}

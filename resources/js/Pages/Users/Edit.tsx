@@ -54,7 +54,11 @@ export default function EditUser() {
 
           <UpdatePasswordForm className="max-w-xl" isAdmin={true} />
 
-          <DeleteUserForm className="max-w-xl" isAdmin={true} />
+          <DeleteUserForm
+            className="max-w-xl"
+            userId={user.data.id}
+            isAdmin={true}
+          />
         </div>
       </div>
     </AuthenticatedLayout>
