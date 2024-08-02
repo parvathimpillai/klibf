@@ -1,5 +1,3 @@
-import { Package2 } from "lucide-react";
-import React from "react";
 import { Link } from "@inertiajs/react";
 
 export function Nav() {

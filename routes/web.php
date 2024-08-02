@@ -15,18 +15,15 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             return Inertia::render('Dashboard');
         })->name('dashboard');
 
-        // POFILE
+        // PROFILE
         Route::get('/profile', array( ProfileController::class, 'edit' ))->name('profile.edit');
         Route::patch('/profile', array( ProfileController::class, 'update' ))->name('profile.update');
         Route::delete('/profile', array( ProfileController::class, 'destroy' ))->name('profile.destroy');
 
         // USERS
         Route::get('/users', array( UserController::class, 'index' ))->name('users.index');
-        // edit user
         Route::get('/users/{id}/', array( UserController::class, 'edit' ))->name('users.edit');
-        // update user
         Route::patch('/users/{id}/', array( UserController::class, 'update' ))->name('users.update');
-        // delete user
         Route::delete('/users/{id}', array( UserController::class, 'destroy' ))->name('users.destroy');
 });
 
