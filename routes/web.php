@@ -21,11 +21,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::delete('/profile', array( ProfileController::class, 'destroy' ))->name('profile.destroy');
 
         // USERS
+        Route::get('/users', array( UserController::class, 'create' ))->name('users.create');
         Route::get('/users', array( UserController::class, 'index' ))->name('users.index');
         Route::get('/users/{id}/', array( UserController::class, 'edit' ))->name('users.edit');
         Route::patch('/users/{id}/', array( UserController::class, 'update' ))->name('users.update');
         Route::delete('/users/{id}', array( UserController::class, 'destroy' ))->name('users.destroy');
 });
-
 
 require __DIR__ . '/auth.php';
