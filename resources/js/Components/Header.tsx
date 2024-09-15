@@ -14,10 +14,12 @@ import { Package } from "lucide-react";
 import { Menu } from "lucide-react";
 import { ModeToggle } from "@/Components/ThemeToggle";
 import { Breadcrumbs } from "@/Components/Breadcrumb";
-export function Header() {
+import { User } from "@/types";
+
+export function Header({ user }: { user: User }) {
   return (
     <header className="flex w-full h-14 items-center gap-4 border-b bg-muted/40 backdrop-blur-md px-4 lg:h-[60px] lg:px-6 sticky top-0 z-50">
-      <Breadcrumbs />
+      <Breadcrumbs user={user} />
       <div className="flex gap-4 justify-end items-center mx-auto w-full max-w-[1440px]">
         <Sheet>
           <SheetTrigger asChild>

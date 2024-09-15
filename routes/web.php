@@ -26,6 +26,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/users/{id}/', array( UserController::class, 'edit' ))->name('users.edit');
         Route::patch('/users/{id}/', array( UserController::class, 'update' ))->name('users.update');
         Route::delete('/users/{id}', array( UserController::class, 'destroy' ))->name('users.destroy');
+        Route::get('/users/{id}', [UserController::class, 'findById']);
 });
 
 require __DIR__ . '/auth.php';

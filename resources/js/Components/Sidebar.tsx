@@ -43,7 +43,7 @@ export function Sidebar() {
               )}
             >
               <Settings className="w-4 h-4" />
-              Settings
+              Profile
             </Link>
           </nav>
         </div>

@@ -18,14 +18,14 @@ export default function Authenticated({
       <Head title={header} />
       <Sidebar />
       <div className="flex flex-col">
-        <Header />
+        <Header user={user} />
         <main className="flex flex-col flex-1 gap-4 p-4 mx-auto w-full max-w-[1440px] lg:gap-6 lg:p-6">
           {header && (
             <div className="flex items-center">
               <h1 className="text-lg font-semibold md:text-2xl">{header}</h1>
             </div>
           )}
-          <div className="rounded-lg shadow-sm">{children}</div>
+          <div className="rounded-lg">{children}</div>
         </main>
       </div>
     </div>

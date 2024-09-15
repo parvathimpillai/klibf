@@ -90,4 +90,18 @@ class UserController extends Controller
         // redirect to route('users.index'); whit message and render inertia page
         return Redirect::route('users.index')->with('message', 'User deleted successfully');
     }
+
+    /**
+     * Find a user by ID.
+     *
+     * @param int $id
+     * @return \Inertia\Response
+     */
+    public function findById($id)
+    {
+        $user = User::findOrFail($id);
+        return Inertia::render('Users/Edit', [
+            'user' => new UserResource($user)
+        ]);
+    }
 }
