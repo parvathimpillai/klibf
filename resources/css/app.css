@@ -92,3 +92,7 @@
         @apply bg-muted text-primary;
     }
 }
+
+body {
+    margin-bottom: 0 !important;
+}
