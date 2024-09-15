@@ -13,14 +13,7 @@ import {
   DialogClose,
 } from "@/Components/ui/dialog";
 import { Badge } from "@/Components/ui/badge";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-  CardFooter,
-} from "@/Components/ui/card";
+import { Card, CardContent, CardFooter } from "@/Components/ui/card";
 import {
   Table,
   TableBody,
@@ -63,32 +56,13 @@ export default function Users({ auth }: PageProps) {
   console.log(usePage<UsersPageProps>().props);
 
   return (
-    <AuthenticatedLayout user={auth.user}>
+    <AuthenticatedLayout user={auth.user} header="Users">
       <Head title="Users" />
       <div className="pt-6">
-        <div className="mx-auto max-w-7xl">
+        <div>
           <Sheet>
             <CreateUserSheet />
-
             <Card>
-              <CardHeader className="px-7">
-                <div className="flex">
-                  <div className="">
-                    <CardTitle>Users</CardTitle>
-                    <CardDescription>
-                      Here you can view all users and their details
-                    </CardDescription>
-                  </div>
-                  <div className="flex gap-2 justify-end items-center ml-auto">
-                    <SheetTrigger className="inline-flex gap-2 justify-center items-center px-3 h-10 text-sm font-medium whitespace-nowrap rounded-md border transition-colors ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border-input bg-background hover:bg-accent hover:text-accent-foreground">
-                      <UserPlus className="w-5 h-5" />
-                      <span className="sr-only sm:not-sr-only">
-                        Create user
-                      </span>
-                    </SheetTrigger>
-                  </div>
-                </div>
-              </CardHeader>
               <CardContent>
                 <Table>
                   <TableHeader>
@@ -110,9 +84,18 @@ export default function Users({ auth }: PageProps) {
                     {users.data.map((user) => (
                       <TableRow key={user.id}>
                         <TableCell>
-                          <div className="font-medium">{user.name}</div>
-                          <div className="hidden text-sm text-muted-foreground md:inline">
-                            {user.email}
+                          <div className="flex gap-2 items-center">
+                            <img
+                              src={`https://mighty.tools/mockmind-api/content/human/${user.id}.jpg`}
+                              alt={user.name}
+                              className="w-10 h-10 rounded-full"
+                            />
+                            <div className="">
+                              <div className="font-medium">{user.name}</div>
+                              <div className="hidden text-sm text-muted-foreground md:inline">
+                                {user.email}
+                              </div>
+                            </div>
                           </div>
                         </TableCell>
                         <TableCell className="hidden sm:table-cell">
@@ -185,13 +168,14 @@ export default function Users({ auth }: PageProps) {
                   </TableBody>
                 </Table>
               </CardContent>
-              <CardFooter className="px-6 py-4 border-t">
-                <Paginations pagination={pagination} users={users} />
-              </CardFooter>
             </Card>
           </Sheet>
         </div>
       </div>
+      {/* if pagination is not empty, show the pagination */}
+      {pagination.last_page > 1 && (
+        <Paginations pagination={pagination} users={users} />
+      )}
     </AuthenticatedLayout>
   );
 }

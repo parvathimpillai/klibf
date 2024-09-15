@@ -6,56 +6,70 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/Components/ui/dropdown-menu";
-import { CircleUser, Search } from "lucide-react";
+import { CircleUser } from "lucide-react";
 import { Button } from "@/Components/ui/button";
-import { Input } from "@/Components/ui/input";
+import { Sheet, SheetContent, SheetTrigger } from "@/Components/ui/sheet";
 import { Link } from "@inertiajs/react";
+import { Package } from "lucide-react";
+import { Menu } from "lucide-react";
 import { ModeToggle } from "@/Components/ThemeToggle";
-import { Nav } from "@/Components/Nav";
-import { MobileNav } from "@/Components/MobileNav";
-
-export function Header({ user }: { user: { name: string } }) {
+import { Breadcrumbs } from "@/Components/Breadcrumb";
+export function Header() {
   return (
-    <div className="sticky top-0 border-b bg-background">
-      <header className="container flex sticky top-0 gap-4 items-center px-4 h-16 sm:px-6 lg:px-8 md:px-6">
-        <Nav />
-        <MobileNav />
-        <div className="flex gap-4 items-center w-full md:ml-auto md:gap-2 lg:gap-4">
-          <form className="flex-1 ml-auto sm:flex-initial">
-            <div className="relative">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                type="search"
-                placeholder="Search..."
-                className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]"
-              />
-            </div>
-          </form>
-          <ModeToggle />
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="secondary" size="icon" className="rounded-full">
-                <CircleUser className="w-5 h-5" />
-                <span className="sr-only">Toggle user menu</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>{user.name}</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <Link href={route("profile.edit")}>Settings</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>Support</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <Link href={route("logout")} method="post">
-                  Log Out
-                </Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </header>
-    </div>
+    <header className="flex w-full h-14 items-center gap-4 border-b bg-muted/40 backdrop-blur-md px-4 lg:h-[60px] lg:px-6 sticky top-0 z-50">
+      <Breadcrumbs />
+      <div className="flex gap-4 justify-end items-center mx-auto w-full max-w-[1440px]">
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button
+              variant="outline"
+              size="icon"
+              className="shrink-0 md:hidden"
+            >
+              <Menu className="w-5 h-5" />
+              <span className="sr-only">Toggle navigation menu</span>
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" className="flex flex-col">
+            <nav className="grid gap-2 text-lg font-medium">
+              <Link
+                href="#"
+                className="flex gap-2 items-center text-lg font-semibold" // Added hover effect
+              >
+                <Package className="w-6 h-6" />
+                <span className="sr-only">Acme Inc</span>
+              </Link>
+              {/* Repeat Links for Dashboard, Orders, etc. */}
+            </nav>
+          </SheetContent>
+        </Sheet>
+        <ModeToggle />
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="secondary" size="icon" className="rounded-full">
+              <CircleUser className="w-5 h-5" />
+              <span className="sr-only">Toggle user menu</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <Link href={route("profile.edit")} className="">
+                Settings
+              </Link>{" "}
+              {/* Added hover effect */}
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <Link href={route("logout")} method="post" className="">
+                Log Out
+              </Link>{" "}
+              {/* Added hover effect */}
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </header>
   );
 }

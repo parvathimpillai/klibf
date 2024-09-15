@@ -1,21 +1,33 @@
 import { PropsWithChildren, ReactNode } from "react";
+import { Head } from "@inertiajs/react";
 
 import { User } from "@/types";
 import { Header } from "@/Components/Header";
 import { Toaster } from "@/Components/ui/sonner";
-
+import { Button } from "@/Components/ui/button";
+import { Sidebar } from "@/Components/Sidebar";
 export default function Authenticated({
   user,
   header,
   children,
-}: PropsWithChildren<{ user: User; header?: ReactNode }>) {
+}: PropsWithChildren<{ user: User; header?: string }>) {
+  console.log(user);
+
   return (
-    <div className="min-h-screen">
-      <Header user={user} />
-      <main className="flex min-h-[calc(100vh_-_theme(spacing.16))] flex-1 flex-col gap-4 bg-muted/40 p-4 md:gap-8 md:p-10">
-        {children}
-      </main>
-      <Toaster />
+    <div className="grid min-h-screen w-full  md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
+      <Head title={header} />
+      <Sidebar />
+      <div className="flex flex-col">
+        <Header />
+        <main className="flex flex-col flex-1 gap-4 p-4 mx-auto w-full max-w-[1440px] lg:gap-6 lg:p-6">
+          {header && (
+            <div className="flex items-center">
+              <h1 className="text-lg font-semibold md:text-2xl">{header}</h1>
+            </div>
+          )}
+          <div className="rounded-lg shadow-sm">{children}</div>
+        </main>
+      </div>
     </div>
   );
 }
