@@ -1,12 +1,14 @@
 import { Sidebar } from "./Sidebar";
 import { Header } from "./Header";
 import { Button } from "./ui/button";
-export default function Dashboard() {
+import { User } from "@/types";
+
+export default function Dashboard({ user }: { user: User }) {
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <Sidebar />
       <div className="flex flex-col">
-        <Header />
+        <Header user={user} />
         <main className="flex flex-col flex-1 gap-4 p-4 lg:gap-6 lg:p-6">
           <div className="flex items-center">
             <h1 className="text-lg font-semibold md:text-2xl">Inventory</h1>
