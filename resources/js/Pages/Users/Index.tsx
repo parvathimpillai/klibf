@@ -83,12 +83,11 @@ export default function Users({ auth }: PageProps) {
                 <TableHeader>
                   <TableRow>
                     <TableHead>User</TableHead>
-                    <TableHead className="hidden sm:table-cell">Type</TableHead>
+                    <TableHead className="hidden sm:table-cell">Role</TableHead>
                     <TableHead className="hidden sm:table-cell">
-                      Status
+                      Created At
                     </TableHead>
-                    <TableHead className="hidden md:table-cell">Date</TableHead>
-                    <TableHead className="text-right">Amount</TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -110,16 +109,14 @@ export default function Users({ auth }: PageProps) {
                         </div>
                       </TableCell>
                       <TableCell className="hidden sm:table-cell">
-                        type
-                      </TableCell>
-                      <TableCell className="hidden sm:table-cell">
                         <Badge className="text-xs" variant={"outline"}>
-                          role
+                          {user.roles.join(", ")}
                         </Badge>
                       </TableCell>
-                      <TableCell className="hidden md:table-cell">
-                        {user.email}
+                      <TableCell className="hidden sm:table-cell">
+                        {user.created_at}
                       </TableCell>
+
                       <TableCell className="text-right">
                         <Dialog>
                           <DropdownMenu>
