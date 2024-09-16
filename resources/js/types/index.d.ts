@@ -3,6 +3,8 @@ export interface User {
   name: string;
   email: string;
   email_verified_at: string;
+  roles: string[];
+  created_at: string;
 }
 type Meta = {
   current_page: number;
