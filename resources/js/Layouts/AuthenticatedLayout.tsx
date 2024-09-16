@@ -4,7 +4,7 @@ import { Head } from "@inertiajs/react";
 import { User } from "@/types";
 import { Header } from "@/Components/Header";
 import { Toaster } from "@/Components/ui/sonner";
-import { Button } from "@/Components/ui/button";
+
 import { Sidebar } from "@/Components/Sidebar";
 export default function Authenticated({
   user,
@@ -27,6 +27,7 @@ export default function Authenticated({
           )}
           <div className="rounded-lg">{children}</div>
         </main>
+        <Toaster />
       </div>
     </div>
   );

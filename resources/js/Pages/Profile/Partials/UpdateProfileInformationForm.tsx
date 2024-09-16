@@ -46,7 +46,7 @@ export default function UpdateProfileInformationForm({
           toast.dismiss();
         },
       },
-      position: "top-right",
+      position: "top-center",
     });
   };
 

@@ -2,6 +2,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { PageProps, UsersPageProps } from "@/types";
 import { usePage } from "@inertiajs/react";
+import { Input } from "@/Components/ui/input";
 import {
   Dialog,
   DialogContent,
@@ -48,7 +49,9 @@ export default function Users({ auth }: PageProps) {
     destroy(route("users.destroy", id), {
       preserveScroll: true,
       onSuccess: () => {
-        toast.success(`User ${name} deleted successfully`);
+        toast.success(`User ${name} deleted successfully`, {
+          position: "top-center",
+        });
       },
     });
   };
@@ -58,118 +61,125 @@ export default function Users({ auth }: PageProps) {
   return (
     <AuthenticatedLayout user={auth.user} header="Users">
       <Head title="Users" />
-      <div className="pt-6">
-        <div>
+      <div>
+        {/* add button to create user */}
+        <div className="flex gap-4 justify-end">
+          {/* add input to search user */}
+          <Input type="text" placeholder="Search user" className="w-1/4" />
           <Sheet>
+            <SheetTrigger>
+              <Button className="mb-4">
+                <UserPlus className="mr-2 size-4" />
+                Create User
+              </Button>
+            </SheetTrigger>
             <CreateUserSheet />
-            <Card>
-              <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>User</TableHead>
-                      <TableHead className="hidden sm:table-cell">
-                        Type
-                      </TableHead>
-                      <TableHead className="hidden sm:table-cell">
-                        Status
-                      </TableHead>
-                      <TableHead className="hidden md:table-cell">
-                        Date
-                      </TableHead>
-                      <TableHead className="text-right">Amount</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {users.data.map((user) => (
-                      <TableRow key={user.id}>
-                        <TableCell>
-                          <div className="flex gap-2 items-center">
-                            <img
-                              src={`https://mighty.tools/mockmind-api/content/human/${user.id}.jpg`}
-                              alt={user.name}
-                              className="w-10 h-10 rounded-full"
-                            />
-                            <div className="">
-                              <div className="font-medium">{user.name}</div>
-                              <div className="hidden text-sm text-muted-foreground md:inline">
-                                {user.email}
-                              </div>
+          </Sheet>
+        </div>
+        <div>
+          <Card>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>User</TableHead>
+                    <TableHead className="hidden sm:table-cell">Type</TableHead>
+                    <TableHead className="hidden sm:table-cell">
+                      Status
+                    </TableHead>
+                    <TableHead className="hidden md:table-cell">Date</TableHead>
+                    <TableHead className="text-right">Amount</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {users.data.map((user) => (
+                    <TableRow key={user.id}>
+                      <TableCell>
+                        <div className="flex gap-2 items-center">
+                          <img
+                            src={`https://mighty.tools/mockmind-api/content/human/${user.id}.jpg`}
+                            alt={user.name}
+                            className="w-10 h-10 rounded-full"
+                          />
+                          <div className="">
+                            <div className="font-medium">{user.name}</div>
+                            <div className="hidden text-sm text-muted-foreground md:inline">
+                              {user.email}
                             </div>
                           </div>
-                        </TableCell>
-                        <TableCell className="hidden sm:table-cell">
-                          type
-                        </TableCell>
-                        <TableCell className="hidden sm:table-cell">
-                          <Badge className="text-xs" variant={"outline"}>
-                            role
-                          </Badge>
-                        </TableCell>
-                        <TableCell className="hidden md:table-cell">
-                          {user.email}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <Dialog>
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <Button
-                                  aria-haspopup="true"
-                                  size="icon"
-                                  variant="ghost"
+                        </div>
+                      </TableCell>
+                      <TableCell className="hidden sm:table-cell">
+                        type
+                      </TableCell>
+                      <TableCell className="hidden sm:table-cell">
+                        <Badge className="text-xs" variant={"outline"}>
+                          role
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="hidden md:table-cell">
+                        {user.email}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <Dialog>
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button
+                                aria-haspopup="true"
+                                size="icon"
+                                variant="ghost"
+                              >
+                                <MoreHorizontal className="w-4 h-4" />
+                                <span className="sr-only">Toggle menu</span>
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                              <DropdownMenuItem>
+                                <Link
+                                  // route /users/{id}/edit
+                                  href={`/users/${user.id}`}
+                                  className="block w-full"
                                 >
-                                  <MoreHorizontal className="w-4 h-4" />
-                                  <span className="sr-only">Toggle menu</span>
-                                </Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent align="end">
-                                <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                <DropdownMenuItem>
-                                  <Link
-                                    // route /users/{id}/edit
-                                    href={`/users/${user.id}`}
-                                    className="block w-full"
-                                  >
-                                    Edit
-                                  </Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                  <DialogTrigger>Delete</DialogTrigger>
-                                </DropdownMenuItem>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
-                            <DialogContent>
-                              <DialogHeader>
-                                <DialogTitle>
-                                  Are you sure you want to delete the user{" "}
-                                  {user.name}?
-                                </DialogTitle>
-                                <DialogDescription>
-                                  Once the user is deleted, all of its resources
-                                  and data will be permanently deleted.
-                                </DialogDescription>
-                              </DialogHeader>
-                              <DialogFooter>
-                                <DialogClose>
-                                  <Button variant="secondary">Cancel</Button>
-                                </DialogClose>
-                                <Button
-                                  onClick={() => deleteUser(user.id, user.name)}
-                                  variant="destructive"
-                                >
-                                  Delete
-                                </Button>
-                              </DialogFooter>
-                            </DialogContent>
-                          </Dialog>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
-          </Sheet>
+                                  Edit
+                                </Link>
+                              </DropdownMenuItem>
+                              <DropdownMenuItem>
+                                <DialogTrigger>Delete</DialogTrigger>
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                          <DialogContent>
+                            <DialogHeader>
+                              <DialogTitle>
+                                Are you sure you want to delete the user{" "}
+                                {user.name}?
+                              </DialogTitle>
+                              <DialogDescription>
+                                Once the user is deleted, all of its resources
+                                and data will be permanently deleted.
+                              </DialogDescription>
+                            </DialogHeader>
+                            <DialogFooter>
+                              <DialogClose>
+                                <Button variant="secondary">Cancel</Button>
+                              </DialogClose>
+                              <Button
+                                onClick={() => deleteUser(user.id, user.name)}
+                                variant="destructive"
+                              >
+                                Delete
+                              </Button>
+                            </DialogFooter>
+                          </DialogContent>
+                        </Dialog>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
         </div>
       </div>
       {/* if pagination is not empty, show the pagination */}

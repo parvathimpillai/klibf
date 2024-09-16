@@ -29,6 +29,7 @@ class UserController extends Controller
      */
     public function create()
     {
+        return Inertia::render('Users/Create');
     }
 
     /**
@@ -36,7 +37,11 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        $user = User::create($request->all());
+        return Inertia::render('Users/Edit', [
+            'user' => new UserResource($user),
+            'message' => 'User created successfully'
+        ]);
     }
 
     /**
@@ -88,7 +93,7 @@ class UserController extends Controller
         User::destroy($id);
         // return json with response
         // redirect to route('users.index'); whit message and render inertia page
-        return Redirect::route('users.index')->with('message', 'User deleted successfully');
+        return Redirect::route('users.index', ['message' => 'User deleted successfully']);
     }
 
     /**
