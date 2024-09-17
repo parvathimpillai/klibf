@@ -19,7 +19,7 @@ class UserController extends Controller
         return Inertia::render(
             'Users/Index',
             [
-                'users' => UserResource::collection(User::paginate(20)),
+                'users' => UserResource::collection(User::paginate(10)),
             ]
         );
     }
