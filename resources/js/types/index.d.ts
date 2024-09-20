@@ -32,4 +32,6 @@ export type UsersPageProps = PageProps & {
     data: User[];
     meta: Meta;
   };
+  roles: string[];
+  message?: string;
 };

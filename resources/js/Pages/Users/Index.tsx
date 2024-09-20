@@ -37,12 +37,34 @@ import Paginations from "@/Components/Pagination";
 import { MoreHorizontal, UserPlus } from "lucide-react";
 import { toast } from "sonner";
 import { CreateUserSheet } from "./Create";
+import { useState } from "react";
+import { useEffect } from "react";
+
+// Add this function to get initials
+function getInitials(name: string): string {
+  return name
+    .split(" ")
+    .map((word) => word[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
+}
 
 export default function Users({ auth }: PageProps) {
-  const { users } = usePage<UsersPageProps>().props;
+  const { users, message, roles } = usePage<UsersPageProps>().props;
   const pagination = users.meta;
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const { delete: destroy } = useForm();
+
+  // Display toast message when component mounts if message prop exists
+  useEffect(() => {
+    if (message) {
+      toast.success(message, {
+        position: "top-center",
+      });
+    }
+  }, [message]);
 
   // deleteUser
   const deleteUser = (id: number, name: string) => {
@@ -56,8 +78,6 @@ export default function Users({ auth }: PageProps) {
     });
   };
 
-  console.log(usePage<UsersPageProps>().props);
-
   return (
     <AuthenticatedLayout user={auth.user} header="Users">
       <Head title="Users" />
@@ -66,14 +86,18 @@ export default function Users({ auth }: PageProps) {
         <div className="flex gap-4 justify-end">
           {/* add input to search user */}
           <Input type="text" placeholder="Search user" className="w-1/4" />
-          <Sheet>
+          <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
             <SheetTrigger>
-              <Button className="mb-4">
+              <Button
+                variant={"outline"}
+                className="mb-4"
+                onClick={() => setIsSheetOpen(true)}
+              >
                 <UserPlus className="mr-2 size-4" />
                 Create User
               </Button>
             </SheetTrigger>
-            <CreateUserSheet />
+            <CreateUserSheet roles={roles} />
           </Sheet>
         </div>
         <div>
@@ -94,12 +118,10 @@ export default function Users({ auth }: PageProps) {
                   {users.data.map((user) => (
                     <TableRow key={user.id}>
                       <TableCell>
-                        <div className="flex gap-2 items-center">
-                          <img
-                            src={`https://mighty.tools/mockmind-api/content/human/${user.id}.jpg`}
-                            alt={user.name}
-                            className="w-10 h-10 rounded-full"
-                          />
+                        <div className="flex gap-4 items-center">
+                          <div className="flex justify-center items-center w-10 h-10 font-semibold rounded-full bg-muted text-primary/80">
+                            {getInitials(user.name)}
+                          </div>
                           <div className="">
                             <div className="font-medium">{user.name}</div>
                             <div className="hidden text-sm text-muted-foreground md:inline">

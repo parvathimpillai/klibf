@@ -11,8 +11,6 @@ export default function Authenticated({
   header,
   children,
 }: PropsWithChildren<{ user: User; header?: string }>) {
-  console.log(user);
-
   return (
     <div className="grid min-h-screen w-full  md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <Head title={header} />

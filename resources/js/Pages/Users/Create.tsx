@@ -9,31 +9,65 @@ import { Button } from "@/Components/ui/button";
 import { Input } from "@/Components/ui/input";
 import { Label } from "@/Components/ui/label";
 import InputError from "@/Components/InputError";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/Components/ui/select";
+import { CoolFileUpload } from "@/Components/cool-file-upload";
+import { useEffect } from "react";
 
-export function CreateUserSheet() {
-  const { data, setData, post, processing, errors, reset } = useForm({
-    name: "",
-    email: "",
-    password: "",
-    password_confirmation: "",
-  });
-  const handleClose = () => {
-    reset(); // Reset the form fields
+interface CreateUserSheetProps {
+  roles: string[];
+}
+
+export function CreateUserSheet({ roles }: CreateUserSheetProps) {
+  const { data, setData, post, processing, errors, reset, wasSuccessful } =
+    useForm({
+      name: "",
+      email: "",
+      password: "",
+      password_confirmation: "",
+      role: "",
+    });
+
+  useEffect(() => {
+    if (wasSuccessful) {
+      handleReset();
+    }
+  }, [wasSuccessful]);
+
+  const handleReset = () => {
+    reset();
+    // Reset any other form-related state here if needed
   };
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     post(route("users.store"));
   };
+
   return (
     <SheetContent className="w-[400px] sm:w-[900px] sm:max-w-lg">
       <SheetHeader>
         <SheetTitle>Create User</SheetTitle>
         <SheetDescription>
-          <form onSubmit={submit}>
+          <form onSubmit={submit} className="mt-4 space-y-6">
             <div>
-              <Label htmlFor="name">Name</Label>
+              <Label className="text-primary" htmlFor="file">
+                Upload profile picture
+              </Label>
+              <CoolFileUpload />
+              <InputError message={errors.name} className="mt-2" />
+            </div>
+            <div>
+              <Label className="text-primary" htmlFor="name">
+                Name
+              </Label>
               <Input
+                className="mt-1"
                 id="name"
                 value={data.name}
                 onChange={(e) => setData("name", e.target.value)}
@@ -42,8 +76,11 @@ export function CreateUserSheet() {
               <InputError message={errors.name} className="mt-2" />
             </div>
             <div className="mt-4">
-              <Label htmlFor="email">Email</Label>
+              <Label className="text-primary" htmlFor="email">
+                Email
+              </Label>
               <Input
+                className="mt-1"
                 id="email"
                 type="email"
                 value={data.email}
@@ -53,8 +90,11 @@ export function CreateUserSheet() {
               <InputError message={errors.email} className="mt-2" />
             </div>
             <div className="mt-4">
-              <Label htmlFor="password">Password</Label>
+              <Label className="text-primary" htmlFor="password">
+                Password
+              </Label>
               <Input
+                className="mt-1"
                 id="password"
                 type="password"
                 value={data.password}
@@ -64,8 +104,11 @@ export function CreateUserSheet() {
               <InputError message={errors.password} className="mt-2" />
             </div>
             <div className="mt-4">
-              <Label htmlFor="password_confirmation">Confirm Password</Label>
+              <Label className="text-primary" htmlFor="password_confirmation">
+                Confirm Password
+              </Label>
               <Input
+                className="mt-1"
                 id="password_confirmation"
                 type="password"
                 value={data.password_confirmation}
@@ -79,8 +122,26 @@ export function CreateUserSheet() {
                 className="mt-2"
               />
             </div>
+            <div className="mt-4">
+              <Label className="text-primary" htmlFor="role">
+                Role
+              </Label>
+              <Select onValueChange={(value) => setData("role", value)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a role" />
+                </SelectTrigger>
+                <SelectContent>
+                  {roles.map((role) => (
+                    <SelectItem key={role} value={role}>
+                      {role}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <InputError message={errors.role} className="mt-2" />
+            </div>
 
-            <Button type="submit" disabled={processing}>
+            <Button type="submit" disabled={processing} className="mt-4">
               Create User
             </Button>
           </form>

@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Resources\User\UserResource;
 use Illuminate\Support\Facades\Redirect;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -15,11 +17,13 @@ class UserController extends Controller
      */
     public function index()
     {
+        $roles = Role::all()->pluck('name');
         // return all users paqginated with 10 users per page
         return Inertia::render(
             'Users/Index',
             [
                 'users' => UserResource::collection(User::paginate(10)),
+                'roles' => $roles
             ]
         );
     }
@@ -29,7 +33,6 @@ class UserController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Users/Create');
     }
 
     /**
@@ -37,10 +40,25 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $user = User::create($request->all());
-        return Inertia::render('Users/Edit', [
-            'user' => new UserResource($user),
-            'message' => 'User created successfully'
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'role' => 'required|string|exists:roles,name',
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        $user->assignRole($request->role);
+
+        return Inertia::render('Users/Index', [
+            'users' => UserResource::collection(User::paginate(10)),
+            'roles' => Role::all()->pluck('name'),
+            'message' => 'User ' . $user->name . ' created successfully'
         ]);
     }
 

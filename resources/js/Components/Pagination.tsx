@@ -9,11 +9,10 @@ import {
 import { Link } from "@inertiajs/react";
 
 type PaginationProps = {
+  pagination: Meta;
   users: {
-    meta: {
-      current_page: number;
-      last_page: number;
-    };
+    data: User[];
+    meta: Meta;
   };
 };
 

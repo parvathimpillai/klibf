@@ -1,6 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, usePage } from "@inertiajs/react";
-import { Link } from "@inertiajs/react";
 
 import DeleteUserForm from "../Profile/Partials/DeleteUserForm";
 import UpdatePasswordForm from "../Profile/Partials/UpdatePasswordForm";
@@ -14,6 +13,8 @@ export default function EditUser() {
         name: string;
         email: string;
         email_verified_at: string;
+        roles: string[];
+        created_at: string;
       };
     };
   }; // Define user type
