@@ -1,4 +1,4 @@
-import { PropsWithChildren, ReactNode } from "react";
+import { PropsWithChildren } from "react";
 import { Head } from "@inertiajs/react";
 
 import { User } from "@/types";

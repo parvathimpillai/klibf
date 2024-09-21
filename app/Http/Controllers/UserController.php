@@ -18,11 +18,12 @@ class UserController extends Controller
     public function index()
     {
         $roles = Role::all()->pluck('name');
+        $users = User::with('roles')->paginate(10);
         // return all users paqginated with 10 users per page
         return Inertia::render(
             'Users/Index',
             [
-                'users' => UserResource::collection(User::paginate(10)),
+                'users' => UserResource::collection($users),
                 'roles' => $roles
             ]
         );

@@ -7,9 +7,26 @@ import {
   PaginationPrevious,
 } from "@/Components/ui/pagination";
 import { Link } from "@inertiajs/react";
-
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  // Add other user properties as needed
+}
+export interface Meta {
+  current_page: number;
+  last_page: number;
+  per_page: number;
+  total: number;
+  // Add other pagination metadata properties as needed
+}
 type PaginationProps = {
-  pagination: Meta;
+  pagination: {
+    current_page: number;
+    last_page: number;
+    per_page: number;
+    total: number;
+  };
   users: {
     data: User[];
     meta: Meta;
