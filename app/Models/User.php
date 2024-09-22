@@ -46,8 +46,13 @@ class User extends Authenticatable
         ];
     }
 
-    public function sites()
+    public function isAdmin(): bool
     {
-        return $this->hasMany(Site::class);
+        return $this->hasRole('admin');
+    }
+
+    public function isNotAdmin(): bool
+    {
+        return ! $this->isAdmin();
     }
 }

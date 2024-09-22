@@ -56,13 +56,6 @@ export function CreateUserSheet({ roles }: CreateUserSheetProps) {
         <SheetDescription>
           <form onSubmit={submit} className="mt-4 space-y-6">
             <div>
-              <Label className="text-primary" htmlFor="file">
-                Upload profile picture
-              </Label>
-              <CoolFileUpload />
-              <InputError message={errors.name} className="mt-2" />
-            </div>
-            <div>
               <Label className="text-primary" htmlFor="name">
                 Name
               </Label>
@@ -75,6 +68,14 @@ export function CreateUserSheet({ roles }: CreateUserSheetProps) {
               />
               <InputError message={errors.name} className="mt-2" />
             </div>
+            <div>
+              <Label className="text-primary" htmlFor="file">
+                Upload profile picture
+              </Label>
+              <CoolFileUpload />
+              <InputError message={errors.name} className="mt-2" />
+            </div>
+
             <div className="mt-4">
               <Label className="text-primary" htmlFor="email">
                 Email
