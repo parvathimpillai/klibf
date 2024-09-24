@@ -16,7 +16,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/Components/ui/select";
-import { CoolFileUpload } from "@/Components/cool-file-upload";
 import { useEffect } from "react";
 
 interface CreateUserSheetProps {
@@ -31,6 +30,7 @@ export function CreateUserSheet({ roles }: CreateUserSheetProps) {
       password: "",
       password_confirmation: "",
       role: "",
+      avatar: {},
     });
 
   useEffect(() => {
@@ -46,6 +46,8 @@ export function CreateUserSheet({ roles }: CreateUserSheetProps) {
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
+    // console.log(data);
+    // return;
     post(route("users.store"));
   };
 
@@ -72,8 +74,17 @@ export function CreateUserSheet({ roles }: CreateUserSheetProps) {
               <Label className="text-primary" htmlFor="file">
                 Upload profile picture
               </Label>
-              <CoolFileUpload />
-              <InputError message={errors.name} className="mt-2" />
+              <Input
+                className="mt-1"
+                id="avatar"
+                type="file"
+                onChange={(e) => {
+                  let files: any = e.target.files?.[0];
+                  setData("avatar", files);
+                }}
+              />
+
+              <InputError message={errors.avatar} className="mt-2" />
             </div>
 
             <div className="mt-4">
@@ -143,7 +154,11 @@ export function CreateUserSheet({ roles }: CreateUserSheetProps) {
             </div>
 
             <Button type="submit" disabled={processing} className="mt-4">
-              Create User
+              {processing ? (
+                <div className="mr-2 w-4 h-4 animate-spin" />
+              ) : (
+                "Create User"
+              )}
             </Button>
           </form>
         </SheetDescription>

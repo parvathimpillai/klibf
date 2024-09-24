@@ -9,6 +9,7 @@ use App\Http\Resources\User\UserResource;
 use Illuminate\Support\Facades\Redirect;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\UserCreateRequest;
 
 class UserController extends Controller
 {
@@ -39,22 +40,26 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserCreateRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|string|exists:roles,name',
-        ]);
 
+        // create user
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+        // store avatar
+        $avatar = $request->file('avatar');
+        $avatarName = $user->id.'.'.$avatar->getClientOriginalExtension();
+        $avatar->storeAs('public/avatars', $avatarName);
+        $user->update(['avatar' => $avatarName]);
 
+        // assign role
         $user->assignRole($request->role);
+
+        // send verification email
+        $user->sendEmailVerificationNotification();
 
         return Inertia::render('Users/Index', [
             'users' => UserResource::collection(User::paginate(10)),
@@ -80,7 +85,7 @@ class UserController extends Controller
         return Inertia::render(
             'Users/Edit',
             [
-                'user' => new UserResource(User::find($id)),
+            'user' => new UserResource(User::find($id)),
             ]
         );
     }
@@ -96,8 +101,8 @@ class UserController extends Controller
         $user->update($request->all());
         // return json  with response
         return Inertia::render('Users/Edit', [
-            'user' => new UserResource($user),
-            'message' => 'User updated successfully'
+        'user' => new UserResource($user),
+        'message' => 'User updated successfully'
         ]);
     }
 
@@ -125,7 +130,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         return Inertia::render('Users/Edit', [
-            'user' => new UserResource($user)
+        'user' => new UserResource($user)
         ]);
     }
 }

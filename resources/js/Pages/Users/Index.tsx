@@ -119,8 +119,16 @@ export default function Users({ auth }: PageProps) {
                     <TableRow key={user.id}>
                       <TableCell>
                         <div className="flex gap-4 items-center">
-                          <div className="flex justify-center items-center w-10 h-10 font-semibold rounded-full bg-muted text-primary/80">
-                            {getInitials(user.name)}
+                          <div className="flex overflow-hidden justify-center items-center font-semibold rounded-full size-10 bg-muted text-primary/80">
+                            {user.avatar ? (
+                              <img
+                                src={`${user.avatar}`}
+                                alt="User Avatar"
+                                className="object-cover object-center size-full"
+                              />
+                            ) : (
+                              getInitials(user.name)
+                            )}
                           </div>
                           <div className="">
                             <div className="font-medium">{user.name}</div>
