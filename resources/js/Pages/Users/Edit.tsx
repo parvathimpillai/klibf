@@ -11,6 +11,7 @@ export default function EditUser() {
       data: {
         id: number;
         name: string;
+        avatar: string;
         email: string;
         email_verified_at: string;
         roles: string[];
