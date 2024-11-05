@@ -6,6 +6,7 @@ import { PageProps } from "@/types";
 
 import { Input } from "@/Components/ui/input";
 import { Link } from "@inertiajs/react";
+import UpdateAvatarForm from "./Partials/UpdateAvatarForm";
 
 export default function Edit({
   auth,
@@ -22,6 +23,8 @@ export default function Edit({
             className="max-w-xl"
             user={auth.user}
           />
+
+          <UpdateAvatarForm />
 
           <UpdatePasswordForm className="max-w-xl" />
 

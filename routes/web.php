@@ -19,8 +19,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/profile', array( ProfileController::class, 'edit' ))->name('profile.edit');
         Route::patch('/profile', array( ProfileController::class, 'update' ))->name('profile.update');
         Route::delete('/profile', array( ProfileController::class, 'destroy' ))->name('profile.destroy');
-
+        Route::post('profile/avatar', [ProfileController::class, 'updateAvatar'])
+            ->name('profile.avatar.update');
         // USERS
+
         Route::get('/users', [UserController::class, 'index'])->name('users.index');
         Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
         Route::post('/users', [UserController::class, 'store'])->name('users.store');

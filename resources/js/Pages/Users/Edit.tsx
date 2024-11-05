@@ -4,6 +4,7 @@ import { Head, usePage } from "@inertiajs/react";
 import DeleteUserForm from "../Profile/Partials/DeleteUserForm";
 import UpdatePasswordForm from "../Profile/Partials/UpdatePasswordForm";
 import UpdateProfileInformationForm from "../Profile/Partials/UpdateProfileInformationForm";
+import UpdateAvatarForm from "../Profile/Partials/UpdateAvatarForm";
 
 export default function EditUser() {
   const { user } = usePage().props as unknown as {
@@ -32,6 +33,7 @@ export default function EditUser() {
             className="max-w-xl"
             user={user.data}
           />
+          <UpdateAvatarForm />
 
           <UpdatePasswordForm className="max-w-xl" isAdmin={true} />
 

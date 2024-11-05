@@ -30,7 +30,7 @@ import { User } from "@/types";
 
 export function NavUser({ user }: { user: User }) {
   const { isMobile } = useSidebar();
-
+  console.log(user);
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -62,8 +62,11 @@ export function NavUser({ user }: { user: User }) {
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="w-8 h-8 rounded-lg">
-                  <AvatarImage src="" alt={user.name} />
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                  <AvatarImage src="{user.avatar}" alt={user.name} />
+                  <AvatarFallback className="rounded-lg">
+                    {" "}
+                    {getInitials(user.name)}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-sm leading-tight text-left">
                   <span className="font-semibold truncate">{user.name}</span>

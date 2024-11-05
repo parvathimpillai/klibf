@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -59,5 +60,30 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function updateAvatar(Request $request)
+    {
+        $request->validate([
+            'avatar' => ['required', 'image', 'max:2048'], // 2MB max
+        ]);
+
+        $path = $request->file('avatar');
+        $user = $request->user();
+        $avatarName = $user->id.'.'.$path->getClientOriginalExtension();
+        $path->storeAs('public/avatars', $avatarName);
+
+
+
+        // Delete old avatar if exists
+        if ($user->avatar) {
+            Storage::disk('public')->delete($user->avatar);
+        }
+
+        $user->update([
+            'avatar' => $avatarName,
+        ]);
+
+        return back();
     }
 }
