@@ -1,32 +1,41 @@
 import { PropsWithChildren } from "react";
 import { Head } from "@inertiajs/react";
-
 import { User } from "@/types";
-import { Header } from "@/Components/Header";
+import { AppSidebar } from "@/Components/app-sidebar";
+import { Breadcrumbs } from "@/Components/Breadcrumb";
+import { Separator } from "@/Components/ui/separator";
+import { ModeToggle } from "@/Components/ThemeToggle";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/Components/ui/sidebar";
 import { Toaster } from "@/Components/ui/sonner";
-
-import { Sidebar } from "@/Components/Sidebar";
 export default function Authenticated({
   user,
   header,
   children,
 }: PropsWithChildren<{ user: User; header?: string }>) {
   return (
-    <div className="grid min-h-screen w-full  md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
+    <SidebarProvider>
       <Head title={header} />
-      <Sidebar />
-      <div className="flex flex-col">
-        <Header user={user} />
-        <main className="flex flex-col flex-1 gap-4 p-4 mx-auto w-full max-w-[1440px] lg:gap-6 lg:p-6">
-          {header && (
-            <div className="flex items-center">
-              <h1 className="text-lg font-semibold md:text-2xl">{header}</h1>
+      <AppSidebar user={user} />
+      <SidebarInset>
+        <header className="flex sticky top-0 z-10 gap-2 items-center h-16 shrink-0 bg-background">
+          <div className="flex gap-2 items-center px-4 w-full">
+            <SidebarTrigger className="-ml-1" />
+            <Separator orientation="vertical" className="mr-2 h-4" />
+            <Breadcrumbs user={user} />
+            <div className="ml-auto">
+              <ModeToggle />
             </div>
-          )}
-          <div className="rounded-lg">{children}</div>
-        </main>
+          </div>
+        </header>
+        <div className="flex overflow-y-auto flex-col flex-1 gap-4 p-4 pt-8">
+          {children}
+        </div>
         <Toaster />
-      </div>
-    </div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }

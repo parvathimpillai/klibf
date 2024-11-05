@@ -40,15 +40,7 @@ import { CreateUserSheet } from "./Create";
 import { useState } from "react";
 import { useEffect } from "react";
 
-// Add this function to get initials
-function getInitials(name: string): string {
-  return name
-    .split(" ")
-    .map((word) => word[0])
-    .join("")
-    .toUpperCase()
-    .slice(0, 2);
-}
+import { getInitials } from "@/hooks/helpers";
 
 export default function Users({ auth }: PageProps) {
   const { users, message, roles } = usePage<UsersPageProps>().props;
@@ -114,7 +106,7 @@ export default function Users({ auth }: PageProps) {
                     <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
-                <TableBody>
+                <TableBody className="overflow-y-auto">
                   {users.data.map((user) => (
                     <TableRow key={user.id}>
                       <TableCell>
