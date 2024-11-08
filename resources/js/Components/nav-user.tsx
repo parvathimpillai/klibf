@@ -1,5 +1,5 @@
 "use client";
-
+import { Link } from "@inertiajs/react";
 import {
   BadgeCheck,
   Bell,
@@ -30,7 +30,6 @@ import { User } from "@/types";
 
 export function NavUser({ user }: { user: User }) {
   const { isMobile } = useSidebar();
-  console.log(user);
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -41,7 +40,10 @@ export function NavUser({ user }: { user: User }) {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="w-8 h-8 rounded-lg">
-                <AvatarImage src="" alt={user.name} />
+                <AvatarImage
+                  src={`/storage/avatars/${user.avatar}`}
+                  alt={user.name}
+                />
                 <AvatarFallback className="rounded-lg">
                   {getInitials(user.name)}
                 </AvatarFallback>
@@ -62,7 +64,10 @@ export function NavUser({ user }: { user: User }) {
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="w-8 h-8 rounded-lg">
-                  <AvatarImage src="{user.avatar}" alt={user.name} />
+                  <AvatarImage
+                    src={`/storage/avatars/${user.avatar}`}
+                    alt={user.name}
+                  />
                   <AvatarFallback className="rounded-lg">
                     {" "}
                     {getInitials(user.name)}
@@ -99,7 +104,9 @@ export function NavUser({ user }: { user: User }) {
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <LogOut className="mr-2 size-4" />
-              Log out
+              <Link href={route("logout")} method="post">
+                Log out
+              </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
@@ -30,6 +31,7 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
+        dd($request);
         $request->user()->fill($request->validated());
 
         if ($request->user()->isDirty('email')) {
@@ -64,25 +66,28 @@ class ProfileController extends Controller
 
     public function updateAvatar(Request $request)
     {
+
         $request->validate([
             'avatar' => ['required', 'image', 'max:2048'], // 2MB max
+            'id' => ['required', 'exists:users,id'],
         ]);
+        //get the user with the specified id
+        $user = User::find($request->id);
 
         $path = $request->file('avatar');
-        $user = $request->user();
         $avatarName = $user->id.'.'.$path->getClientOriginalExtension();
-        $path->storeAs('public/avatars', $avatarName);
-
-
 
         // Delete old avatar if exists
         if ($user->avatar) {
             Storage::disk('public')->delete($user->avatar);
         }
 
+        $path->storeAs('public/avatars', $avatarName);
+
         $user->update([
             'avatar' => $avatarName,
         ]);
+
 
         return back();
     }

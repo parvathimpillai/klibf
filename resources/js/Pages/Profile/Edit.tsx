@@ -14,7 +14,7 @@ export default function Edit({
   status,
 }: PageProps<{ mustVerifyEmail: boolean; status?: string }>) {
   return (
-    <AuthenticatedLayout user={auth.user} header={"Settings"}>
+    <AuthenticatedLayout auth_user={auth.user} header={"Settings"}>
       <div className="  w-full max-w-6xl items-start gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">
         <div className="grid gap-6">
           <UpdateProfileInformationForm
@@ -24,7 +24,7 @@ export default function Edit({
             user={auth.user}
           />
 
-          <UpdateAvatarForm />
+          <UpdateAvatarForm user={auth.user} />
 
           <UpdatePasswordForm className="max-w-xl" />
 

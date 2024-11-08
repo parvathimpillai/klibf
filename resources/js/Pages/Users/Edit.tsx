@@ -1,12 +1,13 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, usePage } from "@inertiajs/react";
-
+import { PageProps } from "@/types";
 import DeleteUserForm from "../Profile/Partials/DeleteUserForm";
 import UpdatePasswordForm from "../Profile/Partials/UpdatePasswordForm";
 import UpdateProfileInformationForm from "../Profile/Partials/UpdateProfileInformationForm";
 import UpdateAvatarForm from "../Profile/Partials/UpdateAvatarForm";
 
-export default function EditUser() {
+export default function EditUser({ auth }: PageProps) {
+  console.log(usePage().props);
   const { user } = usePage().props as unknown as {
     user: {
       data: {
@@ -22,7 +23,10 @@ export default function EditUser() {
   }; // Define user type
 
   return (
-    <AuthenticatedLayout user={user.data} header={`${user.data.name} Settings`}>
+    <AuthenticatedLayout
+      auth_user={auth.user}
+      header={`${user.data.name} Settings`}
+    >
       <Head title="Profile" />
 
       <div className="mx-auto   w-full  items-start gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">
@@ -32,8 +36,9 @@ export default function EditUser() {
             status={status}
             className="max-w-xl"
             user={user.data}
+            isAuthUser={auth.user.id === user.data.id}
           />
-          <UpdateAvatarForm />
+          <UpdateAvatarForm user={user.data} />
 
           <UpdatePasswordForm className="max-w-xl" isAdmin={true} />
 

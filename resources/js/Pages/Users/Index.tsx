@@ -44,6 +44,7 @@ import { getInitials } from "@/hooks/helpers";
 
 export default function Users({ auth }: PageProps) {
   const { users, message, roles } = usePage<UsersPageProps>().props;
+
   const pagination = users.meta;
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
@@ -71,11 +72,11 @@ export default function Users({ auth }: PageProps) {
   };
 
   return (
-    <AuthenticatedLayout user={auth.user} header="Users">
+    <AuthenticatedLayout auth_user={auth.user} header="Users">
       <Head title="Users" />
       <div>
         {/* add button to create user */}
-        <div className="flex gap-4 justify-end">
+        <div className="flex gap-4 justify-between">
           {/* add input to search user */}
           <Input type="text" placeholder="Search user" className="w-1/4" />
           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>

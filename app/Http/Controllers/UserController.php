@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Redirect;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserCreateRequest;
+use Illuminate\Support\Facades\Cache;
 
 class UserController extends Controller
 {
@@ -42,13 +43,13 @@ class UserController extends Controller
      */
     public function store(UserCreateRequest $request)
     {
-
         // create user
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
         // store avatar
         $avatar = $request->file('avatar');
         $avatarName = $user->id.'.'.$avatar->getClientOriginalExtension();
@@ -85,7 +86,7 @@ class UserController extends Controller
         return Inertia::render(
             'Users/Edit',
             [
-            'user' => new UserResource(User::find($id)),
+            'user_data' => new UserResource(User::find($id)),
             ]
         );
     }
@@ -99,7 +100,8 @@ class UserController extends Controller
         // update the user with the specified id
         $user = User::find($id);
         $user->update($request->all());
-        // return json  with response
+        // return json  with response clear cache
+        Cache::clear();
         return Inertia::render('Users/Edit', [
         'user' => new UserResource($user),
         'message' => 'User updated successfully'

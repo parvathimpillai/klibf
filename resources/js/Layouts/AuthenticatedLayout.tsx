@@ -12,20 +12,20 @@ import {
 } from "@/Components/ui/sidebar";
 import { Toaster } from "@/Components/ui/sonner";
 export default function Authenticated({
-  user,
+  auth_user,
   header,
   children,
-}: PropsWithChildren<{ user: User; header?: string }>) {
+}: PropsWithChildren<{ auth_user: User; header?: string }>) {
   return (
     <SidebarProvider>
       <Head title={header} />
-      <AppSidebar user={user} />
+      <AppSidebar user={auth_user} />
       <SidebarInset>
         <header className="flex sticky top-0 z-10 gap-2 items-center h-16 shrink-0 bg-background">
           <div className="flex gap-2 items-center px-4 w-full">
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="mr-2 h-4" />
-            <Breadcrumbs user={user} />
+            <Breadcrumbs user={auth_user} />
             <div className="ml-auto">
               <ModeToggle />
             </div>

@@ -153,8 +153,6 @@ export function AppSidebar({
   user,
   ...props
 }: React.ComponentProps<typeof Sidebar> & { user: User }) {
-  console.log(user);
-
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>

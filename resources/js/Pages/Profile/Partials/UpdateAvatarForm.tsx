@@ -15,8 +15,9 @@ import { Input } from "@/Components/ui/input";
 import { Label } from "@/Components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/Components/ui/avatar";
 import { getInitials } from "@/hooks/helpers";
+import { User } from "@/types";
 
-function UpdateAvatarForm() {
+function UpdateAvatarForm({ user }: { user: User }) {
   const [preview, setPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -38,7 +39,7 @@ function UpdateAvatarForm() {
   };
 
   const submit = () => {
-    post(route("profile.avatar.update"), {
+    post(route("profile.avatar.update", { id: user.id }), {
       preserveScroll: true,
       onSuccess: () => {
         reset("avatar");

@@ -37,7 +37,7 @@ export default function Paginations({ users }: PaginationProps) {
   const { current_page, last_page } = users.meta;
 
   return (
-    <Pagination className="mt-10">
+    <Pagination>
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious

@@ -46,7 +46,6 @@ export function CreateUserSheet({ roles }: CreateUserSheetProps) {
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    // console.log(data);
     // return;
     post(route("users.store"));
   };

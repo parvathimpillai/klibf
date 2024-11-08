@@ -19,6 +19,7 @@ export default function UpdateProfileInformationForm({
   status,
   className = "",
   user,
+  isAuthUser,
 }: {
   mustVerifyEmail: boolean;
   status?: string;
@@ -29,25 +30,43 @@ export default function UpdateProfileInformationForm({
     email: string;
     email_verified_at: string;
   };
+  isAuthUser: boolean;
 }) {
-  const { data, setData, patch, errors, processing, recentlySuccessful } =
-    useForm({
-      name: user.name,
-      email: user.email,
-    });
+  const {
+    data,
+    setData,
+    patch,
+    reset,
+    errors,
+    processing,
+    recentlySuccessful,
+  } = useForm({
+    name: user.name,
+    email: user.email,
+  });
   const handleClick = () => {
     // submit the form
-    patch(route("profile.update"));
-    toast("Profile information updated", {
-      description: "the profile information has been updated successfully.",
-      action: {
-        label: "Close",
-        onClick: () => {
-          toast.dismiss();
+    patch(
+      route(isAuthUser ? "profile.update" : "users.update", { id: user.id }),
+      {
+        preserveScroll: true,
+
+        onSuccess: () => {
+          reset("name", "email");
+          toast.success("Profile information updated", {
+            description:
+              "the profile information has been updated successfully.",
+            position: "top-center",
+          });
         },
-      },
-      position: "top-center",
-    });
+        onError: () => {
+          toast.error("Failed to update profile information", {
+            description: "Errors: " + Object.values(errors).join(", "),
+            position: "top-center",
+          });
+        },
+      }
+    );
   };
 
   const submit: FormEventHandler = (e) => {
