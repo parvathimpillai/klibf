@@ -74,7 +74,6 @@ class UserController extends Controller
 
         // send verification email
         $user->sendEmailVerificationNotification();
-
         return Inertia::render('Users/Index', [
             'users' => UserResource::collection(User::paginate(10)),
             'roles' => Role::all()->pluck('name'),

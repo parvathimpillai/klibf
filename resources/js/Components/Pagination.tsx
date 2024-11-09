@@ -6,35 +6,24 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/Components/ui/pagination";
-import { Link } from "@inertiajs/react";
-export interface User {
-  id: number;
-  name: string;
-  email: string;
-  // Add other user properties as needed
-}
-export interface Meta {
+
+interface PaginationMeta {
   current_page: number;
   last_page: number;
   per_page: number;
   total: number;
-  // Add other pagination metadata properties as needed
+  from: number;
+  to: number;
+  path: string;
+  links: { url: string | null; label: string; active: boolean }[];
 }
-type PaginationProps = {
-  pagination: {
-    current_page: number;
-    last_page: number;
-    per_page: number;
-    total: number;
-  };
-  users: {
-    data: User[];
-    meta: Meta;
-  };
-};
 
-export default function Paginations({ users }: PaginationProps) {
-  const { current_page, last_page } = users.meta;
+interface PaginationProps {
+  pagination: PaginationMeta;
+}
+
+export default function Paginations({ pagination }: PaginationProps) {
+  const { current_page, last_page } = pagination;
 
   return (
     <Pagination>

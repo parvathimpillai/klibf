@@ -7,6 +7,14 @@ export interface User {
   roles: string[];
   created_at: string;
 }
+
+export interface Site {
+  id: number;
+  name: string;
+  url: string;
+  created_at: string;
+}
+
 type Meta = {
   current_page: number;
   from: number;
@@ -26,25 +34,24 @@ export type PageProps<
   };
 };
 
-// users has data property which is an array of User
-
-export interface UsersPageProps {
-  users: {
-    data: User[];
-    meta: {
-      current_page: number;
-      from: number;
-      last_page: number;
-      links: { url: string | null; label: string; active: boolean }[];
-      path: string;
-      per_page: number;
-      to: number;
-      total: number;
-    };
-  };
+export interface BasePageProps {
   message?: string;
-  roles: string[];
   filters: {
     search?: string;
+  };
+}
+
+export interface UsersPageProps extends BasePageProps {
+  users: {
+    data: User[];
+    meta: Meta;
+  };
+  roles: string[];
+}
+
+export interface SitesPageProps extends BasePageProps {
+  sites: {
+    data: Site[];
+    meta: Meta;
   };
 }
