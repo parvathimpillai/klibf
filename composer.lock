@@ -3258,16 +3258,16 @@
         },
         {
             "name": "spatie/laravel-permission",
-            "version": "6.10.0",
+            "version": "6.10.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-permission.git",
-                "reference": "2444bb914a52c570c00ae8c94e096a58e01b2317"
+                "reference": "8bb69d6d67387f7a00d93a2f5fab98860f06e704"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/2444bb914a52c570c00ae8c94e096a58e01b2317",
-                "reference": "2444bb914a52c570c00ae8c94e096a58e01b2317",
+                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/8bb69d6d67387f7a00d93a2f5fab98860f06e704",
+                "reference": "8bb69d6d67387f7a00d93a2f5fab98860f06e704",
                 "shasum": ""
             },
             "require": {
@@ -3329,7 +3329,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-permission/issues",
-                "source": "https://github.com/spatie/laravel-permission/tree/6.10.0"
+                "source": "https://github.com/spatie/laravel-permission/tree/6.10.1"
             },
             "funding": [
                 {
@@ -3337,7 +3337,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-11-05T17:30:49+00:00"
+            "time": "2024-11-08T18:45:41+00:00"
         },
         {
             "name": "symfony/clock",
@@ -5908,16 +5908,16 @@
     "packages-dev": [
         {
             "name": "aaronfrancis/solo",
-            "version": "v0.1.0",
+            "version": "v0.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aarondfrancis/solo.git",
-                "reference": "52cff8ec172934c53b489e5fa1b2b5955d90953e"
+                "reference": "6d32f59c0aec6df5bca025f7a91e6efca6d67ef0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aarondfrancis/solo/zipball/52cff8ec172934c53b489e5fa1b2b5955d90953e",
-                "reference": "52cff8ec172934c53b489e5fa1b2b5955d90953e",
+                "url": "https://api.github.com/repos/aarondfrancis/solo/zipball/6d32f59c0aec6df5bca025f7a91e6efca6d67ef0",
+                "reference": "6d32f59c0aec6df5bca025f7a91e6efca6d67ef0",
                 "shasum": ""
             },
             "require": {
@@ -5925,7 +5925,7 @@
                 "illuminate/console": "^10|^11",
                 "illuminate/process": "^10|^11",
                 "illuminate/support": "^10|^11",
-                "joetannenbaum/chewie": "^0.1.7",
+                "joetannenbaum/chewie": "^0.1.8",
                 "php": "^8.2"
             },
             "require-dev": {
@@ -5959,9 +5959,9 @@
             "description": "A Laravel package to run multiple commands at once, to aid in local development.",
             "support": {
                 "issues": "https://github.com/aarondfrancis/solo/issues",
-                "source": "https://github.com/aarondfrancis/solo/tree/v0.1.0"
+                "source": "https://github.com/aarondfrancis/solo/tree/v0.1.2"
             },
-            "time": "2024-11-07T17:57:12+00:00"
+            "time": "2024-11-08T18:49:30+00:00"
         },
         {
             "name": "barryvdh/laravel-debugbar",
@@ -6234,20 +6234,20 @@
         },
         {
             "name": "joetannenbaum/chewie",
-            "version": "0.1.7",
+            "version": "0.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joetannenbaum/chewie.git",
-                "reference": "e093b383144c5fce922b04d556484209bdcb418c"
+                "reference": "cd203b6999841ff9a53a158ae8876ef740c8a8d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joetannenbaum/chewie/zipball/e093b383144c5fce922b04d556484209bdcb418c",
-                "reference": "e093b383144c5fce922b04d556484209bdcb418c",
+                "url": "https://api.github.com/repos/joetannenbaum/chewie/zipball/cd203b6999841ff9a53a158ae8876ef740c8a8d4",
+                "reference": "cd203b6999841ff9a53a158ae8876ef740c8a8d4",
                 "shasum": ""
             },
             "require": {
-                "laravel/prompts": "^0.1.15"
+                "laravel/prompts": "0.1.x"
             },
             "require-dev": {
                 "pestphp/pest": "^2.33",
@@ -6265,9 +6265,9 @@
             "notification-url": "https://packagist.org/downloads/",
             "support": {
                 "issues": "https://github.com/joetannenbaum/chewie/issues",
-                "source": "https://github.com/joetannenbaum/chewie/tree/0.1.7"
+                "source": "https://github.com/joetannenbaum/chewie/tree/0.1.8"
             },
-            "time": "2024-10-20T00:17:58+00:00"
+            "time": "2024-11-07T20:58:02+00:00"
         },
         {
             "name": "laravel/breeze",
@@ -6611,16 +6611,16 @@
         },
         {
             "name": "myclabs/deep-copy",
-            "version": "1.12.0",
+            "version": "1.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "3a6b9a42cd8f8771bd4295d13e1423fa7f3d942c"
+                "reference": "123267b2c49fbf30d78a7b2d333f6be754b94845"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/3a6b9a42cd8f8771bd4295d13e1423fa7f3d942c",
-                "reference": "3a6b9a42cd8f8771bd4295d13e1423fa7f3d942c",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/123267b2c49fbf30d78a7b2d333f6be754b94845",
+                "reference": "123267b2c49fbf30d78a7b2d333f6be754b94845",
                 "shasum": ""
             },
             "require": {
@@ -6659,7 +6659,7 @@
             ],
             "support": {
                 "issues": "https://github.com/myclabs/DeepCopy/issues",
-                "source": "https://github.com/myclabs/DeepCopy/tree/1.12.0"
+                "source": "https://github.com/myclabs/DeepCopy/tree/1.12.1"
             },
             "funding": [
                 {
@@ -6667,7 +6667,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-06-12T14:39:25+00:00"
+            "time": "2024-11-08T17:47:46+00:00"
         },
         {
             "name": "nunomaduro/collision",

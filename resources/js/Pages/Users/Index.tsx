@@ -1,5 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link, useForm } from "@inertiajs/react";
+import { Head, Link, useForm, router } from "@inertiajs/react";
 import { PageProps, UsersPageProps } from "@/types";
 import { usePage } from "@inertiajs/react";
 import { Input } from "@/Components/ui/input";
@@ -39,16 +39,30 @@ import { toast } from "sonner";
 import { CreateUserSheet } from "./Create";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useDebouncedCallback } from "use-debounce";
 
 import { getInitials } from "@/hooks/helpers";
 
 export default function Users({ auth }: PageProps) {
-  const { users, message, roles } = usePage<UsersPageProps>().props;
+  const { users, message, roles, filters } = usePage<UsersPageProps>().props;
 
   const pagination = users.meta;
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const { delete: destroy } = useForm();
+
+  // Handle search with debounce
+  const handleSearch = useDebouncedCallback((term: string) => {
+    router.get(
+      route("users.index"),
+      { search: term },
+      {
+        preserveState: true,
+        preserveScroll: true,
+        replace: true,
+      }
+    );
+  }, 300);
 
   // Display toast message when component mounts if message prop exists
   useEffect(() => {
@@ -78,7 +92,13 @@ export default function Users({ auth }: PageProps) {
         {/* add button to create user */}
         <div className="flex gap-4 justify-between">
           {/* add input to search user */}
-          <Input type="text" placeholder="Search user" className="w-1/4" />
+          <Input
+            type="text"
+            placeholder="Search users..."
+            className="w-1/4"
+            defaultValue={filters?.search}
+            onChange={(e) => handleSearch(e.target.value)}
+          />
           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
             <SheetTrigger>
               <Button

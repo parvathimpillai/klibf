@@ -28,11 +28,23 @@ export type PageProps<
 
 // users has data property which is an array of User
 
-export type UsersPageProps = PageProps & {
+export interface UsersPageProps {
   users: {
     data: User[];
-    meta: Meta;
+    meta: {
+      current_page: number;
+      from: number;
+      last_page: number;
+      links: { url: string | null; label: string; active: boolean }[];
+      path: string;
+      per_page: number;
+      to: number;
+      total: number;
+    };
   };
-  roles: string[];
   message?: string;
-};
+  roles: string[];
+  filters: {
+    search?: string;
+  };
+}
