@@ -4,8 +4,6 @@ import UpdatePasswordForm from "./Partials/UpdatePasswordForm";
 import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationForm";
 import { PageProps } from "@/types";
 
-import { Input } from "@/Components/ui/input";
-import { Link } from "@inertiajs/react";
 import UpdateAvatarForm from "./Partials/UpdateAvatarForm";
 
 export default function Edit({
@@ -17,14 +15,15 @@ export default function Edit({
     <AuthenticatedLayout auth_user={auth.user} header={"Settings"}>
       <div className="  w-full max-w-6xl items-start gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">
         <div className="grid gap-6">
+          <UpdateAvatarForm user={auth.user} />
+
           <UpdateProfileInformationForm
             mustVerifyEmail={mustVerifyEmail}
             status={status}
             className="max-w-xl"
             user={auth.user}
+            isAuthUser={true}
           />
-
-          <UpdateAvatarForm user={auth.user} />
 
           <UpdatePasswordForm className="max-w-xl" />
 

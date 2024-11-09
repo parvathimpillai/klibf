@@ -43,6 +43,7 @@ function UpdateAvatarForm({ user }: { user: User }) {
       preserveScroll: true,
       onSuccess: () => {
         reset("avatar");
+        setPreview(null); // Reset preview after successful upload
         toast.success("Avatar updated successfully", {
           description: "Your profile picture has been updated",
           position: "top-center",
@@ -71,11 +72,15 @@ function UpdateAvatarForm({ user }: { user: User }) {
           >
             <Avatar className="w-14 h-14 cursor-pointer">
               <AvatarImage
-                className="object-cover rounded-full"
-                src={preview || ""}
+                className="object-cover"
+                src={
+                  preview ||
+                  (user.avatar ? `/storage/avatars/${user.avatar}` : "")
+                }
+                alt={user.name}
               />
               <AvatarFallback className="text-lg">
-                {getInitials("User Name")}
+                {getInitials(user.name)}
               </AvatarFallback>
             </Avatar>
           </Button>

@@ -1,26 +1,53 @@
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, usePage } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
+import { FormEvent } from "react";
 import { PageProps } from "@/types";
-import DeleteUserForm from "../Profile/Partials/DeleteUserForm";
-import UpdatePasswordForm from "../Profile/Partials/UpdatePasswordForm";
-import UpdateProfileInformationForm from "../Profile/Partials/UpdateProfileInformationForm";
-import UpdateAvatarForm from "../Profile/Partials/UpdateAvatarForm";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import UpdateAvatarForm from "@/Pages/Profile/Partials/UpdateAvatarForm";
+import UpdateProfileInformationForm from "@/Pages/Profile/Partials/UpdateProfileInformationForm";
+import UpdatePasswordForm from "@/Pages/Profile/Partials/UpdatePasswordForm";
+import DeleteUserForm from "@/Pages/Profile/Partials/DeleteUserForm";
+import { Head } from "@inertiajs/react";
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  avatar: string;
+  email_verified_at: string;
+  roles: string[];
+  created_at: string;
+}
+
+interface EditProps extends PageProps {
+  user: {
+    data: User;
+  };
+}
 
 export default function EditUser({ auth }: PageProps) {
-  console.log(usePage().props);
-  const { user } = usePage().props as unknown as {
-    user: {
-      data: {
-        id: number;
-        name: string;
-        avatar: string;
-        email: string;
-        email_verified_at: string;
-        roles: string[];
-        created_at: string;
-      };
-    };
-  }; // Define user type
+  const { user } = usePage<EditProps>().props;
+
+  const { data, setData, patch, errors, processing } = useForm({
+    name: user.data.name,
+    email: user.data.email,
+  });
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    patch(route("users.update", user.data.id), {
+      preserveScroll: true,
+      onSuccess: () => {
+        // Update the page props with the new data
+        const page = usePage<EditProps>();
+        page.props.user.data = {
+          ...page.props.user.data,
+          name: data.name,
+          email: data.email,
+        };
+      },
+    });
+  };
 
   return (
     <AuthenticatedLayout
@@ -28,8 +55,9 @@ export default function EditUser({ auth }: PageProps) {
       header={`${user.data.name} Settings`}
     >
       <Head title="Profile" />
+      <UpdateAvatarForm user={user.data} />
 
-      <div className="mx-auto   w-full  items-start gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">
+      <div className="mx-auto w-full items-start gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">
         <div className="grid overflow-auto gap-6 w-full lg:grid-cols-2">
           <UpdateProfileInformationForm
             mustVerifyEmail={false}
@@ -38,7 +66,6 @@ export default function EditUser({ auth }: PageProps) {
             user={user.data}
             isAuthUser={auth.user.id === user.data.id}
           />
-          <UpdateAvatarForm user={user.data} />
 
           <UpdatePasswordForm className="max-w-xl" isAdmin={true} />
 

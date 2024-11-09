@@ -11,6 +11,8 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserCreateRequest;
 use Illuminate\Support\Facades\Cache;
+use App\Http\Requests\UpdateUserRequest;
+use Illuminate\Http\RedirectResponse;
 
 class UserController extends Controller
 {
@@ -94,17 +96,23 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateUserRequest $request) : RedirectResponse
     {
-
-        // update the user with the specified id
+        // get id from request
+        $id = $request->id;
+        // get user by id
         $user = User::find($id);
-        $user->update($request->all());
-        // return json  with response clear cache
-        Cache::clear();
-        return Inertia::render('Users/Edit', [
-        'user' => new UserResource($user),
-        'message' => 'User updated successfully'
+        // update user
+        // if email isnt the same as the current email skip the email verification
+        if ($request->email !== $user->email) {
+            $user->update($request->validated());
+        } else {
+            $user->update($request->except('email'));
+        }
+
+        return back()->with([
+            'status' => 'user-updated',
+            'user' => $user->fresh(),
         ]);
     }
 

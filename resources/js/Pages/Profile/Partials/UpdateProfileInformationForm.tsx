@@ -44,36 +44,32 @@ export default function UpdateProfileInformationForm({
     name: user.name,
     email: user.email,
   });
+
   const handleClick = () => {
-    // submit the form
-    patch(
-      route(isAuthUser ? "profile.update" : "users.update", { id: user.id }),
-      {
-        preserveScroll: true,
+    const payload = {
+      name: data.name,
+      ...(data.email !== user.email && { email: data.email }),
+    };
+    console.log(payload);
 
-        onSuccess: () => {
-          reset("name", "email");
-          toast.success("Profile information updated", {
-            description:
-              "the profile information has been updated successfully.",
-            position: "top-center",
-          });
-        },
-        onError: () => {
-          toast.error("Failed to update profile information", {
-            description: "Errors: " + Object.values(errors).join(", "),
-            position: "top-center",
-          });
-        },
-      }
-    );
+    patch(route(isAuthUser ? "profile.update" : "users.update", user.id), {
+      data: payload,
+      preserveScroll: true,
+      onSuccess: () => {
+        toast.success("Profile information updated", {
+          description: "The profile information has been updated successfully.",
+          position: "top-center",
+        });
+      },
+      onError: () => {
+        toast.error("Failed to update profile information", {
+          description: "Errors: " + Object.values(errors).join(", "),
+          position: "top-center",
+        });
+      },
+    });
   };
 
-  const submit: FormEventHandler = (e) => {
-    e.preventDefault();
-
-    patch(route("profile.update"));
-  };
   return (
     <Card>
       <CardHeader>
@@ -83,7 +79,7 @@ export default function UpdateProfileInformationForm({
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={submit}>
+        <form>
           <Label htmlFor="name" className="block text-sm font-medium">
             Name
           </Label>
