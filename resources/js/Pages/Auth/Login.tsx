@@ -39,6 +39,8 @@ export default function LoginForm({
 
     post(route("login"));
   };
+  console.log(status);
+
   return (
     <GuestLayout>
       <Head title="Se connecter" />

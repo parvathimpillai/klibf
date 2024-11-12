@@ -72,27 +72,27 @@ const data = {
       // ],
     },
     {
-      title: "Settings",
+      title: "Account",
       url: route("profile.edit"),
       icon: Settings,
-      items: [
-        {
-          title: "Profile",
-          url: route("profile.edit"),
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
+      // items: [
+      //   {
+      //     title: "Profile",
+      //     url: route("profile.edit"),
+      //   },
+      //   {
+      //     title: "Get Started",
+      //     url: "#",
+      //   },
+      //   {
+      //     title: "Tutorials",
+      //     url: "#",
+      //   },
+      //   {
+      //     title: "Changelog",
+      //     url: "#",
+      //   },
+      // ],
     },
     // {
     //   title: "Settings",

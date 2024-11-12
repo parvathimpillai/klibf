@@ -69,7 +69,6 @@ class ProfileController extends Controller
 
     public function updateAvatar(Request $request)
     {
-
         $request->validate([
             'avatar' => ['required', 'image', 'max:2048'], // 2MB max
             'id' => ['required', 'exists:users,id'],
@@ -78,8 +77,7 @@ class ProfileController extends Controller
         $user = User::find($request->id);
 
         $path = $request->file('avatar');
-        $avatarName = $user->id.'.'.$path->getClientOriginalExtension();
-
+        $avatarName = $user->id . '_' . time() . '.' . $path->getClientOriginalExtension();
         // Delete old avatar if exists
         if ($user->avatar) {
             Storage::disk('public')->delete($user->avatar);

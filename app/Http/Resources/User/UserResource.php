@@ -24,6 +24,7 @@ class UserResource extends JsonResource
         }),
         'avatar' => $this->avatar ? asset('storage/avatars/'.$this->avatar) : null,
         'created_at' => $this->created_at->format('d F Y'),
+        'updated_at' => $this->updated_at->format('d F Y'),
         'permissions' => $this->whenLoaded('permissions', function () {
             return $this->permissions->pluck('name');
         }),

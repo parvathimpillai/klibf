@@ -102,7 +102,7 @@ export default function ResetPassword({
         </CardContent>
 
         <CardFooter className="px-6 py-4 border-t">
-          <Button className="" disabled={processing}>
+          <Button className="" onClick={submit} disabled={processing}>
             Reset Password
           </Button>
         </CardFooter>

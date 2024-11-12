@@ -55,10 +55,10 @@ export default function EditUser({ auth }: PageProps) {
       header={`${user.data.name} Settings`}
     >
       <Head title="Profile" />
-      <UpdateAvatarForm user={user.data} />
 
-      <div className="mx-auto w-full items-start gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">
-        <div className="grid overflow-auto gap-6 w-full lg:grid-cols-2">
+      <div className=" w-full max-w-6xl items-start gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">
+        <div className="grid gap-6">
+          <UpdateAvatarForm user={user.data} />
           <UpdateProfileInformationForm
             mustVerifyEmail={false}
             status={status}

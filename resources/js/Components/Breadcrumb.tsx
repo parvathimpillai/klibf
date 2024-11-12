@@ -23,7 +23,7 @@ export function Breadcrumbs({ user }: { user: User }) {
           {isDashboard ? (
             <BreadcrumbPage>Dashboard</BreadcrumbPage>
           ) : (
-            <Link href={route("dashboard")}>
+            <Link className="hover:underline" href={route("dashboard")}>
               <BreadcrumbPage>Dashboard</BreadcrumbPage>
             </Link>
           )}
@@ -57,7 +57,7 @@ export function Breadcrumbs({ user }: { user: User }) {
                     <BreadcrumbPage>{displayText}</BreadcrumbPage>
                   ) : (
                     <>
-                      <Link href={href}>
+                      <Link className="hover:underline" href={href}>
                         <BreadcrumbPage>{displayText}</BreadcrumbPage>
                       </Link>
                       <BreadcrumbSeparator>

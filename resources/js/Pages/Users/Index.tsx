@@ -1,5 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, useForm } from "@inertiajs/react";
+import { Head, useForm, router, Link } from "@inertiajs/react";
 import { PageProps, User, UsersPageProps } from "@/types";
 import { usePage } from "@inertiajs/react";
 import { DataTableWrapper } from "@/Components/DataTable/DataTableWrapper";
@@ -8,16 +8,54 @@ import { CreateUserSheet } from "./Create";
 import { getInitials } from "@/hooks/helpers";
 import { RowActions } from "@/Components/DataTable/RowActions";
 import { toast } from "sonner";
-
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/Components/ui/dialog";
+import { useState } from "react";
+import { Button } from "@/Components/ui/button";
 export default function Users({ auth }: PageProps) {
   const { users, message, roles, filters } = usePage<UsersPageProps>().props;
   const { delete: destroy } = useForm();
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
   const handleDelete = (user: User) => {
     destroy(route("users.destroy", user.id), {
       preserveScroll: true,
       onSuccess: () => {
         toast.success(`User ${user.name} deleted successfully`);
+      },
+    });
+  };
+
+  const handleSelectionChange = (ids: number[]) => {
+    setSelectedIds(ids);
+  };
+
+  const handleBulkDelete = () => {
+    console.log(selectedIds);
+
+    destroy(route("users.bulk-destroy", { ids: selectedIds }), {
+      preserveScroll: true,
+      onSuccess: () => {
+        toast.success("users deleted successfully", {
+          description: `${selectedIds.length} users deleted successfully`,
+          position: "top-center",
+        });
+        setSelectedIds([]);
+        setShowDeleteDialog(false);
+      },
+      onError: () => {
+        toast.error("Failed to delete users", {
+          description: "Failed to delete users",
+          position: "top-center",
+        });
+        setShowDeleteDialog(false);
       },
     });
   };
@@ -40,7 +78,11 @@ export default function Users({ auth }: PageProps) {
             )}
           </div>
           <div>
-            <div className="font-medium">{user.name}</div>
+            <div className="font-medium">
+              <Link className="hover:underline" href={`/users/${user.id}`}>
+                {user.name}
+              </Link>
+            </div>
             <div className="hidden text-sm text-muted-foreground md:inline">
               {user.email}
             </div>
@@ -51,7 +93,7 @@ export default function Users({ auth }: PageProps) {
     {
       key: "roles",
       label: "Role",
-      className: "hidden sm:table-cell",
+      className: "hidden sm:table-cell text-center",
       render: (user: User) => (
         <Badge className="text-xs" variant="outline">
           {user.roles.join(", ")}
@@ -60,8 +102,13 @@ export default function Users({ auth }: PageProps) {
     },
     {
       key: "created_at",
-      label: "Created At",
-      className: "hidden sm:table-cell",
+      label: "Created",
+      className: "hidden sm:table-cell text-right",
+    },
+    {
+      key: "updated_at",
+      label: "Last Updated",
+      className: "hidden sm:table-cell text-right",
     },
     {
       key: "actions",
@@ -97,11 +144,37 @@ export default function Users({ auth }: PageProps) {
         searchPlaceholder="Search users..."
         routePrefix="users"
         filters={filters}
+        selectable={true}
+        onSelectionChange={handleSelectionChange}
+        onBulkDelete={(ids) => setShowDeleteDialog(true)}
         createButton={{
           label: "Create User",
           sheet: <CreateUserSheet roles={roles} />,
         }}
       />
+
+      <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Delete Selected Users</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to delete {selectedIds.length} users? This
+              action cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setShowDeleteDialog(false)}
+            >
+              Cancel
+            </Button>
+            <Button variant="destructive" onClick={handleBulkDelete}>
+              Delete Users
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </AuthenticatedLayout>
   );
 }

@@ -41,12 +41,20 @@ export interface BasePageProps {
   };
 }
 
-export interface UsersPageProps extends BasePageProps {
+export interface UsersPageProps extends PageProps {
   users: {
     data: User[];
     meta: Meta;
   };
+  message?: string;
   roles: string[];
+  filters: {
+    search?: string;
+  };
+  flash: {
+    success?: string;
+    error?: string;
+  };
 }
 
 export interface SitesPageProps extends BasePageProps {

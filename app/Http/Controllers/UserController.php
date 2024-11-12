@@ -13,6 +13,7 @@ use App\Http\Requests\UserCreateRequest;
 use Illuminate\Support\Facades\Cache;
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -152,5 +153,21 @@ class UserController extends Controller
         return Inertia::render('Users/Edit', [
         'user' => new UserResource($user)
         ]);
+    }
+
+    public function bulkDestroy(Request $request)
+    {
+        $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'exists:users,id'
+        ]);
+
+        try {
+            User::whereIn('id', $request->ids)->delete();
+
+            return redirect()->back()->with('success', 'Users deleted successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to delete users');
+        }
     }
 }

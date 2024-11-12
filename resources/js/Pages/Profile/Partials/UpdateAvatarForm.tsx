@@ -43,7 +43,9 @@ function UpdateAvatarForm({ user }: { user: User }) {
       preserveScroll: true,
       onSuccess: () => {
         reset("avatar");
-        setPreview(null); // Reset preview after successful upload
+        setPreview(user.avatar ? `/storage/avatars/${user.avatar}` : null);
+        console.log(preview);
+        // Reset preview after successful upload
         toast.success("Avatar updated successfully", {
           description: "Your profile picture has been updated",
           position: "top-center",
