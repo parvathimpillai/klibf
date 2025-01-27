@@ -1,12 +1,8 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, useForm, router, Link } from "@inertiajs/react";
-import { PageProps, User, UsersPageProps } from "@/types";
+import { Head, useForm } from "@inertiajs/react";
+import { PageProps, UsersPageProps } from "@/types";
 import { usePage } from "@inertiajs/react";
-import { DataTableWrapper } from "@/Components/DataTable/DataTableWrapper";
-import { Badge } from "@/Components/ui/badge";
 import { CreateUserSheet } from "./Create";
-import { getInitials } from "@/hooks/helpers";
-import { RowActions } from "@/Components/DataTable/RowActions";
 import { toast } from "sonner";
 import {
   Dialog,
@@ -18,28 +14,25 @@ import {
 } from "@/Components/ui/dialog";
 import { useState } from "react";
 import { Button } from "@/Components/ui/button";
+import { DataTable } from "@/Components/ui/data-table";
+import { columns } from "@/Components/data-table/columns";
+
 export default function Users({ auth }: PageProps) {
   const { users, message, roles, filters } = usePage<UsersPageProps>().props;
   const { delete: destroy } = useForm();
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
-  const handleDelete = (user: User) => {
-    destroy(route("users.destroy", user.id), {
+  const handleDelete = (userId: number) => {
+    destroy(route("users.destroy", userId), {
       preserveScroll: true,
       onSuccess: () => {
-        toast.success(`User ${user.name} deleted successfully`);
+        toast.success("User deleted successfully");
       },
     });
   };
 
-  const handleSelectionChange = (ids: number[]) => {
-    setSelectedIds(ids);
-  };
-
   const handleBulkDelete = () => {
-    console.log(selectedIds);
-
     destroy(route("users.bulk-destroy", { ids: selectedIds }), {
       preserveScroll: true,
       onSuccess: () => {
@@ -60,98 +53,12 @@ export default function Users({ auth }: PageProps) {
     });
   };
 
-  const columns = [
-    {
-      key: "user",
-      label: "User",
-      render: (user: User) => (
-        <div className="flex gap-4 items-center">
-          <div className="flex overflow-hidden justify-center items-center font-semibold rounded-full size-10 bg-muted text-primary/80">
-            {user.avatar ? (
-              <img
-                src={`${user.avatar}`}
-                alt="User Avatar"
-                className="object-cover object-center size-full"
-              />
-            ) : (
-              getInitials(user.name)
-            )}
-          </div>
-          <div>
-            <div className="font-medium">
-              <Link className="hover:underline" href={`/users/${user.id}`}>
-                {user.name}
-              </Link>
-            </div>
-            <div className="hidden text-sm text-muted-foreground md:inline">
-              {user.email}
-            </div>
-          </div>
-        </div>
-      ),
-    },
-    {
-      key: "roles",
-      label: "Role",
-      className: "hidden sm:table-cell text-center",
-      render: (user: User) => (
-        <Badge className="text-xs" variant="outline">
-          {user.roles.join(", ")}
-        </Badge>
-      ),
-    },
-    {
-      key: "created_at",
-      label: "Created",
-      className: "hidden sm:table-cell text-right",
-    },
-    {
-      key: "updated_at",
-      label: "Last Updated",
-      className: "hidden sm:table-cell text-right",
-    },
-    {
-      key: "actions",
-      label: "Actions",
-      className: "text-right",
-      render: (user: User) => (
-        <RowActions
-          item={user}
-          actions={[
-            {
-              label: "Edit",
-              href: `/users/${user.id}`,
-            },
-            {
-              label: "Delete",
-              onClick: () => handleDelete(user),
-              variant: "destructive",
-              requiresConfirmation: true,
-              confirmationMessage: `Are you sure you want to delete ${user.name}?`,
-            },
-          ]}
-        />
-      ),
-    },
-  ];
-
   return (
     <AuthenticatedLayout auth_user={auth.user} header="Users">
       <Head title="Users" />
-      <DataTableWrapper<User>
-        data={users}
-        columns={columns}
-        searchPlaceholder="Search users..."
-        routePrefix="users"
-        filters={filters}
-        selectable={true}
-        onSelectionChange={handleSelectionChange}
-        onBulkDelete={(ids) => setShowDeleteDialog(true)}
-        createButton={{
-          label: "Create User",
-          sheet: <CreateUserSheet roles={roles} />,
-        }}
-      />
+      <div className="container mx-auto py-10">
+        <DataTable columns={columns} data={users.data} meta={users.meta} />
+      </div>
 
       <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <DialogContent>

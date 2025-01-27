@@ -23,6 +23,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
+        $perPage = $request->input('per_page', 10); // Default to 10 if not specified
 
         $users = User::with('roles')
             ->when($search, function ($query, $search) {
@@ -31,7 +32,7 @@ class UserController extends Controller
                         ->orWhere('email', 'like', "%{$search}%");
                 });
             })
-            ->paginate(10);
+            ->paginate($perPage);
 
         $roles = Role::all()->pluck('name');
 
@@ -40,7 +41,10 @@ class UserController extends Controller
             [
                 'users' => UserResource::collection($users),
                 'roles' => $roles,
-                'filters' => ['search' => $search]
+                'filters' => [
+                    'search' => $search,
+                    'per_page' => $perPage
+                ]
             ]
         );
     }
