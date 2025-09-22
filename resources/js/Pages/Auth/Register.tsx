@@ -35,7 +35,11 @@ export default function RegisterForm() {
   const submit: FormEventHandler = (e) => {
     e.preventDefault();
 
-    post(route("register"));
+    post(route("register"), {
+      onSuccess:()=>{
+        window.location.href = '/admin/login';
+      }
+    });
   };
 
   return (
@@ -119,7 +123,7 @@ export default function RegisterForm() {
               </div>
             </div>
             <div className="mt-4">
-              <Button type="submit" disabled={processing}>
+              <Button type="submit" disabled={processing} >
                 Register
               </Button>
             </div>
