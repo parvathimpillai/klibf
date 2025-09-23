@@ -1,4 +1,3 @@
-
 import { Head, Link, useForm } from "@inertiajs/react";
 
 import GuestLayout from "@/Layouts/GuestLayout";
@@ -36,9 +35,9 @@ export default function RegisterForm() {
     e.preventDefault();
 
     post(route("register"), {
-      onSuccess:()=>{
-        window.location.href = '/admin/login';
-      }
+      onSuccess: () => {
+        window.location.href = "/admin/login";
+      },
     });
   };
 
@@ -106,9 +105,7 @@ export default function RegisterForm() {
                 <InputError message={errors.password} className="mt-2" />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="password_confirmation">
-                  Confirm Password
-                </Label>
+                <Label htmlFor="password_confirmation">Confirm Password</Label>
                 <Input
                   id="password_confirmation"
                   type="password"
@@ -119,11 +116,14 @@ export default function RegisterForm() {
                     setData("password_confirmation", e.target.value)
                   }
                 />
-                <InputError message={errors.password_confirmation} className="mt-2" />
+                <InputError
+                  message={errors.password_confirmation}
+                  className="mt-2"
+                />
               </div>
             </div>
             <div className="mt-4">
-              <Button type="submit" disabled={processing} >
+              <Button type="submit" disabled={processing}>
                 Register
               </Button>
             </div>
