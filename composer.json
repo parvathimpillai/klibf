@@ -6,7 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "filament/filament": "^3.3",
+        "filament/filament": "^3.2",
         "inertiajs/inertia-laravel": "2.x-dev",
         "laravel/framework": "^11.9",
         "laravel/sanctum": "^4.0",
@@ -16,6 +16,7 @@
     },
     "require-dev": {
         "aaronfrancis/solo": "^0.1.0",
+        "barryvdh/laravel-debugbar": "^3.13",
         "fakerphp/faker": "^1.23",
         "laravel/breeze": "^2.0",
         "laravel/pint": "^1.13",
