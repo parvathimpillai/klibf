@@ -24,6 +24,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use App\Notifications\PasswordResetNotification;
 use Filament\Notifications\Notification;
+use Filament\Notifications\Actions\Action as NotificationAction;
 
 class UserResource extends Resource
 {
@@ -75,30 +76,29 @@ class UserResource extends Resource
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
 
-                // 🔹 Custom Reset Password Action
                 Action::make('resetPassword')
                     ->label('Reset Password')
                     ->requiresConfirmation()
                     ->color('warning')
                     ->icon('heroicon-o-key')
-                    ->action(function ($record) {
-                        // 1. Generate random password
+                    ->action(function ($record, $livewire) {
                         $newPassword = Str::random(12);
 
-                        // 2. Update password
+                        // Update user password
                         $record->update([
                             'password' => Hash::make($newPassword),
                         ]);
 
-                        // 3. Send email with plain password
+                        // Send email
                         $record->notify(new PasswordResetNotification($newPassword));
-                    })
-                    ->after(
-                        fn() => Notification::make()
+
+                        // 🔹 Show popup with password
+                        Notification::make()
                             ->title('Password reset successfully')
+                            ->body("New password: {$newPassword}")
                             ->success()
-                            ->send()
-                    ),
+                            ->send();
+                    }),
             ]);
     }
 
