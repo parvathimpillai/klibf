@@ -68,6 +68,9 @@ importers:
       use-debounce:
         specifier: ^10.0.4
         version: 10.0.4(react@19.0.0)
+      ziggy-js:
+        specifier: ^2.6.0
+        version: 2.6.0
     devDependencies:
       '@headlessui/react':
         specifier: ^2.2.0
@@ -1529,6 +1532,10 @@ packages:
   proxy-from-env@1.1.0:
     resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
 
+  qs-esm@7.0.2:
+    resolution: {integrity: sha512-D8NAthKSD7SGn748v+GLaaO6k08Mvpoqroa35PqIQC4gtUa8/Pb/k+r0m0NnGBVbHDP1gKZ2nVywqfMisRhV5A==}
+    engines: {node: '>=18'}
+
   qs@6.12.1:
     resolution: {integrity: sha512-zWmv4RSuB9r2mYQw3zxQuHWeU+42aKi1wWig/j4ele4ygELZ7PEO6MM7rim9oAQH2A5MWfsAVf/jPvTPgCbvUQ==}
     engines: {node: '>=0.6'}
@@ -1817,6 +1824,9 @@ packages:
     resolution: {integrity: sha512-B3VqDZ+JAg1nZpaEmWtTXUlBneoGx6CPM9b0TENK6aoSu5t73dItudwdgmi6tHlIZZId4dZ9skcAQ2UbcyAeVA==}
     engines: {node: '>= 14'}
     hasBin: true
+
+  ziggy-js@2.6.0:
+    resolution: {integrity: sha512-V6xeZKEG67xt5Qtli5nCpQrc5TXW/tf3dKu2QLJS2TCxe+xxo/5AusT7M3MwX4nNeSEKBJMIvVJz2dlt+ziWYQ==}
 
 snapshots:
 
@@ -3128,6 +3138,8 @@ snapshots:
 
   proxy-from-env@1.1.0: {}
 
+  qs-esm@7.0.2: {}
+
   qs@6.12.1:
     dependencies:
       side-channel: 1.0.6
@@ -3416,3 +3428,7 @@ snapshots:
   yallist@3.1.1: {}
 
   yaml@2.4.2: {}
+
+  ziggy-js@2.6.0:
+    dependencies:
+      qs-esm: 7.0.2

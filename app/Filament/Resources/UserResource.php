@@ -10,10 +10,20 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\TagsColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Facades\Auth;
+use Filament\Tables\Actions\Action;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
+use App\Notifications\PasswordResetNotification;
+use Filament\Notifications\Notification;
 
 class UserResource extends Resource
 {
@@ -21,22 +31,29 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    public static function shouldRegisterNavigation(): bool
+    {
+        return Auth::user()->can('manage users');
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')->required(),
-                Forms\Components\TextInput::make('email')->email()->required(),
-                Forms\Components\TextInput::make('password')
+                TextInput::make('name')->required(),
+                TextInput::make('email')->email()->required(),
+                TextInput::make('phone')->required(),
+                TextInput::make('password')
                     ->password()
-                    ->dehydrateStateUsing(fn($state) => !empty($state) ? bcrypt($state) : null)
-                    ->required(fn(string $context): bool => $context === 'create'),
+                    ->dehydrateStateUsing(fn($state) => filled($state) ? bcrypt($state) : null)
+                    ->required(fn(string $context): bool => $context === 'create')
+                    ->visible(fn(string $context): bool => $context === 'create'),
 
-                Forms\Components\Select::make('roles')
+                Select::make('roles')
                     ->multiple()
                     ->relationship('roles', 'name'),
 
-                Forms\Components\Select::make('permissions')
+                Select::make('permissions')
                     ->multiple()
                     ->relationship('permissions', 'name'),
             ]);
@@ -46,21 +63,42 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('email')->sortable()->searchable(),
-                Tables\Columns\TagsColumn::make('roles.name'),
-                Tables\Columns\TagsColumn::make('permissions.name'),
+                TextColumn::make('name')->sortable()->searchable(),
+                TextColumn::make('email')->sortable()->searchable(),
+                TagsColumn::make('roles.name'),
+                TagsColumn::make('permissions.name'),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                Tables\Actions\DeleteAction::make(),
+
+                // 🔹 Custom Reset Password Action
+                Action::make('resetPassword')
+                    ->label('Reset Password')
+                    ->requiresConfirmation()
+                    ->color('warning')
+                    ->icon('heroicon-o-key')
+                    ->action(function ($record) {
+                        // 1. Generate random password
+                        $newPassword = Str::random(12);
+
+                        // 2. Update password
+                        $record->update([
+                            'password' => Hash::make($newPassword),
+                        ]);
+
+                        // 3. Send email with plain password
+                        $record->notify(new PasswordResetNotification($newPassword));
+                    })
+                    ->after(
+                        fn() => Notification::make()
+                            ->title('Password reset successfully')
+                            ->success()
+                            ->send()
+                    ),
             ]);
     }
 
