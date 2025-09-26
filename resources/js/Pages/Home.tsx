@@ -1,5 +1,6 @@
 import { Link, Head } from "@inertiajs/react";
 import { PageProps } from "@/types";
+import { Button } from "@headlessui/react";
 
 export default function Welcome({
   auth,
@@ -41,18 +42,19 @@ export default function Welcome({
               <nav className="flex flex-1 justify-end -mx-3">
 
                   <>
-                    {/* <Link
-                      href={route("login")}
+                    <Button
+
+                      onClick={() => (window.location.href = '/admin/login')}
                       className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
                     >
                       Log in
-                    </Link> */}
-                    <Link
-                      href={route("register")}
+                    </Button>
+                    <Button
+                      onClick={() => (window.location.href = '/admin/register')}
                       className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
                     >
                       Register
-                    </Link>
+                    </Button>
                   </>
 
               </nav>
