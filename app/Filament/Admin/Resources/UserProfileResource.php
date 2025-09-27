@@ -7,6 +7,7 @@ use App\Models\UserProfile;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Illuminate\Support\Facades\Auth;
 
 class UserProfileResource extends Resource
 {
@@ -16,10 +17,9 @@ class UserProfileResource extends Resource
     protected static ?string $navigationLabel = 'My Profile';
     protected static ?string $pluralModelLabel = 'Profile';
 
-    // ⛔ Hide table completely
     public static function shouldRegisterNavigation(): bool
     {
-        return true; // still show "My Profile" in sidebar
+        return Auth::check() && Auth::user()->hasRole('publisher');
     }
 
     public static function form(Form $form): Form

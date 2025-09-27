@@ -34,7 +34,7 @@ class UserResource extends Resource
 
     public static function shouldRegisterNavigation(): bool
     {
-        return Auth::user()->can('manage users');
+        return Auth::check() && Auth::user()->hasRole('super admin');
     }
 
     public static function form(Form $form): Form
