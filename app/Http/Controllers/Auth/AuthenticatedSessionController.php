@@ -33,7 +33,9 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        // return redirect()->intended(route('filament.admin.dashboard', absolute: false));
+        return redirect()->intended(route('filament.admin.pages.dashboard'));
+        // return Inertia::location('filament.admin.pages.dashboard');
     }
 
     /**
@@ -47,6 +49,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/login');
+        // return Inertia::location('/login');
     }
 }
