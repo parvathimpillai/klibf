@@ -29,8 +29,8 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             ->id('admin')
             ->path('admin')
-            ->login(Login::class) // Use custom Login class
-            ->registration(Register::class) // Use custom Register class
+            // ->login(Login::class)
+            // ->registration(Register::class)
             ->passwordReset()
             ->emailVerification()
             ->colors([
