@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Providers\Filament;
+use App\Filament\Pages\Auth\Login; // Import custom Login
+use App\Filament\Pages\Auth\Register; // Import custom Register
 
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -27,12 +29,13 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             ->id('admin')
             ->path('admin')
-            ->login()
-            ->registration()
+            // ->login(Login::class)
+            // ->registration(Register::class)
             ->passwordReset()
             ->emailVerification()
             ->colors([
                 'primary' => Color::Amber,
+                // 'primary' => Color::hex('#FF2D20'), // Match home.tsx
             ])
             ->discoverResources(in: app_path('Filament/Admin/Resources'), for: 'App\\Filament\\Admin\\Resources')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
@@ -67,5 +70,6 @@ class AdminPanelProvider extends PanelProvider
                     ->url(fn(): string => ChangePassword::getUrl())
                     ->icon('heroicon-o-key'),
             ]);
+
     }
 }

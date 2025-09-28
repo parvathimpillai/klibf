@@ -8,9 +8,15 @@ export default defineConfig({
   },
   plugins: [
     laravel({
-      input: "resources/js/app.tsx",
+      input:[ "resources/js/app.tsx",
+      'resources/css/app.css',
+      'resources/css/filament/admin/theme.css', // Add Filament theme if using custom CSS
+      ],
       refresh: true,
     }),
     react(),
   ],
+  css: {
+        postcss: './postcss.config.js',
+    },
 });

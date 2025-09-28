@@ -5,10 +5,18 @@ use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
-    return Inertia::render('Home');
-});
+    return Inertia::render('Home'); // Your home.tsx
+})->name('home');
+
+// Route::get('/admin', function () {
+//     return Inertia::render('Admin/Dashboard');
+// })->middleware(['auth', 'verified'])->name('admin.dashboard');
+// Route::get('/', function () {
+//     return auth()->check() ? redirect('/admin') : redirect('/admin/login');
+// })->name('home');
 
 // Route::group(['middleware' => ['auth:sanctum']], function () {
 
