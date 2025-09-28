@@ -41,30 +41,39 @@ export default function LoginForm({
           <div className="absolute top-4 left-4">
             <Link
               href={route("home")}
-              className="text-sm font-medium text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50 dark:text-indigo-400 dark:hover:text-indigo-300 dark:hover:bg-slate-800 rounded-lg px-4 py-2 transition-colors"
+              className="text-lg font-medium text-blue-400 hover:text-blue-700 hover:bg-blue-50 dark:text-blue-400 dark:hover:text-blue-300 dark:hover:bg-slate-800 rounded-lg px-4 py-2 transition-colors"
             >
               KLIBF
             </Link>
           </div>
 
           {/* Centered Branding */}
-          <div className="flex flex-col items-center justify-center h-full">
-            {/* <h1 className="text-xl font-bold text-indigo-400 mb-4">KLIBF</h1> */}
-            <h2 className="text-2xl font-semibold mb-2">
-              Kerala Legislature International Book Festival
+          <div className="flex flex-col items-center justify-center h-full text-center space-y-3">
+            <h1 className="text-3xl md:text-4xl font-extrabold tracking-wide text-white-600">
+              Welcome to Kerala Legislature
+            </h1>
+            <h2 className="text-2xl md:text-5xl font-bold text-white">
+              <span className="text-yellow-500">
+                International Book Festival
+              </span>
             </h2>
-            <p className="text-center text-sm text-gray-300">
-              Kerala Legislative Assembly
+            <p className="text-lg md:text-2xl font-medium text-white-300 mt-2">
+              4<sup className="text-sm">th</sup> Edition
             </p>
+            <p className="text-base md:text-xl font-semibold text-yellow-400">
+              2026  January 7 – 13
+            </p>
+
             <Link
               href="/"
-              className="mt-6 text-sm text-indigo-400 hover:underline"
+              className="mt-6 text-md text-blue-400 hover:underline"
             >
               ← Back to Home
             </Link>
           </div>
+
           {/* Bottom-left */}
-          <div className="text-xs text-gray-600">
+          <div className="text-md text-white-300 mt-4"  >
             © 2025 Secretariat of the Kerala Legislature. All rights reserved.
           </div>
         </div>
@@ -98,7 +107,7 @@ export default function LoginForm({
                   {canResetPassword && (
                     <Link
                       href={route("password.request")}
-                      className="text-sm text-indigo-600 hover:underline"
+                      className="text-sm text-bl hover:underline"
                     >
                       Forgot password?
                     </Link>
@@ -126,7 +135,7 @@ export default function LoginForm({
                 <Label htmlFor="remember">Remember me</Label>
               </div>
 
-              <Button type="submit" disabled={processing} className="w-full">
+              <Button type="submit" disabled={processing} className="w-full bg-gray-900 hover:bg-gray-800 text-white font-semibold">
                 Login
               </Button>
 

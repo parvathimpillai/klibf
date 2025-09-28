@@ -1,18 +1,9 @@
 import { useEffect, FormEventHandler } from "react";
-import GuestLayout from "@/Layouts/GuestLayout";
+import { Head, useForm, Link } from "@inertiajs/react";
 import InputError from "@/Components/InputError";
 import { Label } from "@/Components/ui/label";
 import { Button } from "@/Components/ui/button";
 import { Input } from "@/Components/ui/input";
-import { Head, useForm } from "@inertiajs/react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/Components/ui/card";
 
 export default function ResetPassword({
   token,
@@ -22,8 +13,8 @@ export default function ResetPassword({
   email: string;
 }) {
   const { data, setData, post, processing, errors, reset } = useForm({
-    token: token,
-    email: email,
+    token,
+    email,
     password: "",
     password_confirmation: "",
   });
@@ -36,77 +27,135 @@ export default function ResetPassword({
 
   const submit: FormEventHandler = (e) => {
     e.preventDefault();
-
     post(route("password.store"));
   };
 
   return (
-    <GuestLayout>
+    <>
       <Head title="Reset Password" />
-      <Card>
-        <CardHeader>
-          <CardTitle>Reset Password?</CardTitle>
-          <CardDescription>
-            No problem. Just let us know your email address and we will email
-            you a password reset link that will allow you to choose a new one.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={submit} className="space-y-6">
-            <div>
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                name="email"
-                value={data.email}
-                className="block mt-1 w-full"
-                autoComplete="username"
-                onChange={(e) => setData("email", e.target.value)}
-              />
-              <InputError message={errors.email} className="mt-2" />
-            </div>
 
-            <div>
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                name="password"
-                value={data.password}
-                className="block mt-1 w-full"
-                autoComplete="new-password"
-                onChange={(e) => setData("password", e.target.value)}
-              />
-              <InputError message={errors.password} className="mt-2" />
-            </div>
+      <div className="min-h-screen grid grid-cols-1 md:grid-cols-2">
+        {/* Left Branding Section */}
+        <div className="bg-gray-900 text-white flex flex-col relative p-8">
+          {/* Top-left Home Link */}
+          <div className="absolute top-4 left-4">
+            <Link
+              href={route("home")}
+              className="text-lg font-medium text-blue-400 hover:text-blue-700 hover:bg-blue-50 dark:text-blue-400 dark:hover:text-blue-300 dark:hover:bg-slate-800 rounded-lg px-4 py-2 transition-colors"
+            >
+              KLIBF
+            </Link>
+          </div>
 
-            <div>
-              <Label htmlFor="password_confirmation">Confirm Password</Label>
-              <Input
-                type="password"
-                name="password_confirmation"
-                value={data.password_confirmation}
-                className="block mt-1 w-full"
-                autoComplete="new-password"
-                onChange={(e) =>
-                  setData("password_confirmation", e.target.value)
-                }
-              />
-              <InputError
-                message={errors.password_confirmation}
-                className="mt-2"
-              />
-            </div>
-          </form>
-        </CardContent>
+           {/* Centered Branding */}
+          <div className="flex flex-col items-center justify-center h-full text-center space-y-3">
+            <h1 className="text-3xl md:text-4xl font-extrabold tracking-wide text-white-600">
+              Welcome to Kerala Legislature
+            </h1>
+            <h2 className="text-2xl md:text-5xl font-bold text-white">
+             <span className="text-yellow-500">
+                International Book Festival
+              </span>
+            </h2>
+             <p className="text-lg md:text-2xl font-medium text-white-300 mt-2">
+              4<sup className="text-sm">th</sup> Edition
+            </p>
+           <p className="text-base md:text-xl font-semibold text-yellow-400">
+              2026  January 7 – 13
+            </p>
 
-        <CardFooter className="px-6 py-4 border-t">
-          <Button className="" onClick={submit} disabled={processing}>
-            Reset Password
-          </Button>
-        </CardFooter>
-      </Card>
-    </GuestLayout>
+            <Link
+              href="/"
+               className="mt-6 text-md text-blue-400 hover:underline"
+            >
+              ← Back to Home
+            </Link>
+          </div>
+
+          {/* Bottom-left */}
+           <div className="text-md text-white-300 mt-4">
+            © 2025 Secretariat of the Kerala Legislature. All rights reserved.
+          </div>
+        </div>
+
+        {/* Right Reset Password Form */}
+        <div className="flex items-center justify-center bg-white p-8">
+          <div className="w-full max-w-sm">
+            <h2 className="text-2xl font-bold text-center mb-2">
+              Reset Password
+            </h2>
+            <p className="text-center text-gray-500 mb-6">
+              Enter your new password below to reset your account.
+            </p>
+
+            <form onSubmit={submit} className="space-y-6">
+              <div>
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={data.email}
+                  className="block mt-1 w-full"
+                  autoComplete="username"
+                  onChange={(e) => setData("email", e.target.value)}
+                />
+                <InputError message={errors.email} className="mt-2" />
+              </div>
+
+              <div>
+                <Label htmlFor="password">New Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  value={data.password}
+                  className="block mt-1 w-full"
+                  autoComplete="new-password"
+                  onChange={(e) => setData("password", e.target.value)}
+                />
+                <InputError message={errors.password} className="mt-2" />
+              </div>
+
+              <div>
+                <Label htmlFor="password_confirmation">
+                  Confirm New Password
+                </Label>
+                <Input
+                  id="password_confirmation"
+                  type="password"
+                  value={data.password_confirmation}
+                  className="block mt-1 w-full"
+                  autoComplete="new-password"
+                  onChange={(e) =>
+                    setData("password_confirmation", e.target.value)
+                  }
+                />
+                <InputError
+                  message={errors.password_confirmation}
+                  className="mt-2"
+                />
+              </div>
+
+              <Button
+                type="submit"
+                disabled={processing}
+                className="w-full bg-gray-900 hover:bg-gray-800 text-white font-semibold"
+              >
+                Reset Password
+              </Button>
+
+              <p className="text-center text-sm mt-4">
+                Remembered your password?{" "}
+                <Link
+                  href={route("login")}
+                  className="font-semibold text-red-600 hover:underline"
+                >
+                  LOGIN
+                </Link>
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
