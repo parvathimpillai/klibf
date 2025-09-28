@@ -47,22 +47,22 @@ class UserProfileResource extends Resource
                                 ->label('Organisation Nature')
                                 ->options([
                                     'P' => 'Publisher',
-                                    'A' => 'Publisher & Distributor',
+                                    'D' => 'Publisher & Distributor',
                                 ])
                                 ->required()
                                 ->live(),
-                            Forms\Components\TextInput::make('mgr_house_name')
+                            Forms\Components\TextInput::make('major_house_name')
                                 ->label('Major Publishing House(s)')
-                                ->visible(fn($get) => $get('org_nature') === 'A'),
-                            Forms\Components\Textarea::make('head_org_addr')->label('Address'),
-                            Forms\Components\TextInput::make('head_org_email')
+                                ->visible(fn($get) => $get('org_nature') === 'D'),
+                            Forms\Components\Textarea::make('org_addr')->label('Address'),
+                            Forms\Components\TextInput::make('org_email')
                                 ->label('e-Mail Id')
                                 ->email()
                                 ->default(fn() => Auth::user()->email),
-                            Forms\Components\TextInput::make('head_org_website')
+                            Forms\Components\TextInput::make('org_website')
                                 ->url()
                                 ->label('Website URL (If Any)'),
-                            Forms\Components\TextInput::make('head_org_mobile')
+                            Forms\Components\TextInput::make('org_mobile')
                                 ->default(fn() => Auth::user()->phone)
                                 ->label('Phone No'),
                         ])->columns(2),
@@ -83,14 +83,14 @@ class UserProfileResource extends Resource
                             Forms\Components\TextInput::make('cntct_prsn_name')
                                 ->required()
                                 ->label('Name'),
-                            Forms\Components\TextInput::make('cntct_prsn_name')
+                            Forms\Components\TextInput::make('cntct_prsn_desig')
                                 ->required()
                                 ->label('Designation'),
                             // Forms\Components\Textarea::make('cntct_prsn_addr'),
                             Forms\Components\TextInput::make('cntct_prsn_mobile')
                                 ->default(fn() => Auth::user()->phone)
                                 ->Label('Mobile No'),
-                            Forms\Components\TextInput::make('cntct_prsn_watsapp')
+                            Forms\Components\TextInput::make('cntct_prsn_whatsapp')
                                 ->label('WhatsApp No.')
                                 ->default(fn() => Auth::user()->phone),
                             Forms\Components\TextInput::make('cntct_prsn_email')
