@@ -8,6 +8,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Illuminate\Support\Facades\Auth;
+use Filament\Forms\Components\TextInput;
 
 class UserProfileResource extends Resource
 {
@@ -26,48 +27,80 @@ class UserProfileResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Publishing House / Organization')
-                    ->schema([
-                        Forms\Components\TextInput::make('org_name')->label('Name')->required()->minLength(3),
-                        Forms\Components\TextInput::make('estb_year')->label('Year of Establishment'),
-                        Forms\Components\TextInput::make('reg_no')->label('Registration No.'),
-                        Forms\Components\TextInput::make('gst_no')->label('GST No.'),
-                        Forms\Components\TextInput::make('title_no')->numeric()->label('No. of Titles Published'),
-                        Forms\Components\TextInput::make('book_lang')->label('Language(s)'),
-                        Forms\Components\Select::make('org_nature')
-                            ->options([
-                                'P' => 'Publisher',
-                                'A' => 'Publisher & Distributor',
-                            ])->required(),
-                        Forms\Components\TextInput::make('mgr_house_name')
-                            ->label('Major Publishing House(s)')
-                            ->visible(fn($get) => $get('org_nature') === 'A'),
-                    ])->columns(2),
+                Forms\Components\Wizard::make([
+                    // Step 1: Organization details
+                    Forms\Components\Wizard\Step::make('Organization')
+                        ->schema([
+                            Forms\Components\Section::make('Publishing House / Organization')
+                                ->schema([
+                                    TextInput::make('org_name')
+                                        ->label('Name')
+                                        ->required()
+                                        ->minLength(3),
 
-                Forms\Components\Section::make('Head of Organization')
-                    ->schema([
-                        Forms\Components\TextInput::make('head_org_name')->required(),
-                        Forms\Components\Textarea::make('head_org_addr'),
-                        Forms\Components\TextInput::make('head_org_email')->email(),
-                        Forms\Components\TextInput::make('head_org_website')->url(),
-                        Forms\Components\TextInput::make('head_org_mobile'),
-                    ])->columns(2),
+                                    TextInput::make('estb_year')
+                                        ->label('Year of Establishment'),
 
-                Forms\Components\Section::make('Contact Person')
-                    ->schema([
-                        Forms\Components\TextInput::make('cntct_prsn_name')->required(),
-                        Forms\Components\Textarea::make('cntct_prsn_addr'),
-                        Forms\Components\TextInput::make('cntct_prsn_email')->email(),
-                        Forms\Components\TextInput::make('cntct_prsn_mobile'),
-                        Forms\Components\TextInput::make('cntct_prsn_watsapp')->label('WhatsApp No.'),
-                    ])->columns(2),
+                                    TextInput::make('reg_no')
+                                        ->label('Registration No.'),
 
-                Forms\Components\FileUpload::make('logo')
-                    ->directory('publisher_logos')
-                    ->image()->maxSize(2048),
+                                    TextInput::make('gst_no')
+                                        ->label('GST No.'),
 
-                Forms\Components\TextInput::make('fascia')->required(),
-                Forms\Components\Textarea::make('remarks'),
+                                    TextInput::make('title_no')
+                                        ->numeric()
+                                        ->label('No. of Titles Published'),
+
+                                    TextInput::make('book_lang')
+                                        ->label('Language(s)'),
+
+                                    Forms\Components\Select::make('org_nature')
+                                        ->options([
+                                            'P' => 'Publisher',
+                                            'A' => 'Publisher & Distributor',
+                                        ])
+                                        ->required(),
+
+                                    TextInput::make('mgr_house_name')
+                                        ->label('Major Publishing House(s)')
+                                        ->visible(fn($get) => $get('org_nature') === 'A'),
+                                ])->columns(2),
+                        ]),
+
+                    // Step 2: Head of organization
+                    Forms\Components\Wizard\Step::make('Head of Organization')
+                        ->schema([
+                            TextInput::make('head_org_name')->required(),
+                            Forms\Components\Textarea::make('head_org_addr'),
+                            TextInput::make('head_org_email')->email(),
+                            TextInput::make('head_org_website')->url(),
+                            TextInput::make('head_org_mobile'),
+                        ])->columns(2),
+
+                    // Step 3: Contact person
+                    Forms\Components\Wizard\Step::make('Contact Person')
+                        ->schema([
+                            TextInput::make('cntct_prsn_name')->required(),
+                            Forms\Components\Textarea::make('cntct_prsn_addr'),
+                            TextInput::make('cntct_prsn_email')->email(),
+                            TextInput::make('cntct_prsn_mobile'),
+                            TextInput::make('cntct_prsn_watsapp')->label('WhatsApp No.'),
+                        ])->columns(2),
+
+                    // Step 4: Other details
+                    Forms\Components\Wizard\Step::make('Other')
+                        ->schema([
+                            Forms\Components\FileUpload::make('logo')
+                                ->directory('publisher_logos')
+                                ->image()
+                                ->maxSize(2048),
+
+                            TextInput::make('fascia')->required(),
+                            Forms\Components\Textarea::make('remarks'),
+                        ]),
+                ])
+                    ->skippable() // allow users to skip steps (optional)
+                    ->columnSpanFull(), // make the wizard span full width
             ]);
     }
 
@@ -75,6 +108,8 @@ class UserProfileResource extends Resource
     {
         return [
             'index' => Pages\ManageProfile::route('/'),
+            'create' => Pages\CreateUserProfile::route('/create'),
+            'edit' => Pages\EditUserProfile::route('/{record}/edit'),
         ];
     }
 }
