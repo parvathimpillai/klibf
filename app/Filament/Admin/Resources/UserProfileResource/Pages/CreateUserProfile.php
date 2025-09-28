@@ -17,4 +17,10 @@ class CreateUserProfile extends CreateRecord
         return $data;
     }
 
+    // Save after each step
+    protected function afterCreate(): void
+    {
+        $this->record->refresh();
+    }
+
 }

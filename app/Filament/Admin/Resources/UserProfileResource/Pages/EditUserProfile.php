@@ -22,4 +22,16 @@ class EditUserProfile extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        $data['user_id'] = Auth::id();
+        return $data;
+    }
+
+    // Save immediately on step change
+    protected function afterSave(): void
+    {
+        $this->notify('success', 'Profile updated automatically.');
+    }
 }

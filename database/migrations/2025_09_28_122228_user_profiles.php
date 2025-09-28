@@ -17,17 +17,16 @@ return new class extends Migration {
             $table->string('estb_year')->nullable();
             $table->string('reg_no')->nullable();
             $table->string('gst_no')->nullable();
-            $table->string('book_lang');
-            $table->integer('title_no');
+            $table->string('book_lang')->nullable();
+            $table->integer('title_no')->nullable();
             $table->enum('org_nature', ['P', 'D']); // Publisher / Publisher & Distributor
             $table->string('major_house_name')->nullable();
-            $table->string('head_org_name');
-            $table->text('head_org_addr')->nullable();
-            $table->string('head_org_mobile');
-            $table->string('head_org_email');
-            $table->string('head_org_website')->nullable();
+            $table->text('org_addr')->nullable();
+            $table->string('org_mobile');
+            $table->string('org_email');
+            $table->string('org_website')->nullable();
             $table->string('cntct_prsn_name');
-            $table->text('cntct_prsn_addr')->nullable();
+            $table->string('cntct_prsn_desig')->nullable();
             $table->string('cntct_prsn_mobile');
             $table->string('cntct_prsn_email');
             $table->string('cntct_prsn_whatsapp');

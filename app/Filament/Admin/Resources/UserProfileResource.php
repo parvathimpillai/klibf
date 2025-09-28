@@ -28,66 +28,77 @@ class UserProfileResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Wizard::make([
-                    // Step 1: Organization details
                     Forms\Components\Wizard\Step::make('Organization')
                         ->schema([
-                            Forms\Components\Section::make('Publishing House / Organization')
-                                ->schema([
-                                    TextInput::make('org_name')
-                                        ->label('Name')
-                                        ->required()
-                                        ->minLength(3),
-
-                                    TextInput::make('estb_year')
-                                        ->label('Year of Establishment'),
-
-                                    TextInput::make('reg_no')
-                                        ->label('Registration No.'),
-
-                                    TextInput::make('gst_no')
-                                        ->label('GST No.'),
-
-                                    TextInput::make('title_no')
-                                        ->numeric()
-                                        ->label('No. of Titles Published'),
-
-                                    TextInput::make('book_lang')
-                                        ->label('Language(s)'),
-
-                                    Forms\Components\Select::make('org_nature')
-                                        ->options([
-                                            'P' => 'Publisher',
-                                            'A' => 'Publisher & Distributor',
-                                        ])
-                                        ->required(),
-
-                                    TextInput::make('mgr_house_name')
-                                        ->label('Major Publishing House(s)')
-                                        ->visible(fn($get) => $get('org_nature') === 'A'),
-                                ])->columns(2),
-                        ]),
-
-                    // Step 2: Head of organization
-                    Forms\Components\Wizard\Step::make('Head of Organization')
-                        ->schema([
-                            TextInput::make('head_org_name')->required(),
-                            Forms\Components\Textarea::make('head_org_addr'),
-                            TextInput::make('head_org_email')->email(),
-                            TextInput::make('head_org_website')->url(),
-                            TextInput::make('head_org_mobile'),
+                            Forms\Components\TextInput::make('org_name')
+                                ->label('Organisation Name')
+                                ->default(fn() => Auth::user()->name)
+                                ->required()
+                                ->minLength(3)
+                                ->live(debounce: 500), // auto-update when typing
+                            Forms\Components\TextInput::make('estb_year')->label('Year of Establishment'),
+                            Forms\Components\TextInput::make('reg_no')->label('Registration No.'),
+                            Forms\Components\TextInput::make('gst_no')->label('GST No.'),
+                            Forms\Components\TextInput::make('title_no')
+                                ->numeric()
+                                ->label('No. of Titles Published'),
+                            Forms\Components\TextInput::make('book_lang')->label('Language(s)'),
+                            Forms\Components\Select::make('org_nature')
+                                ->label('Organisation Nature')
+                                ->options([
+                                    'P' => 'Publisher',
+                                    'A' => 'Publisher & Distributor',
+                                ])
+                                ->required()
+                                ->live(),
+                            Forms\Components\TextInput::make('mgr_house_name')
+                                ->label('Major Publishing House(s)')
+                                ->visible(fn($get) => $get('org_nature') === 'A'),
+                            Forms\Components\Textarea::make('head_org_addr')->label('Address'),
+                            Forms\Components\TextInput::make('head_org_email')
+                                ->label('e-Mail Id')
+                                ->email()
+                                ->default(fn() => Auth::user()->email),
+                            Forms\Components\TextInput::make('head_org_website')
+                                ->url()
+                                ->label('Website URL (If Any)'),
+                            Forms\Components\TextInput::make('head_org_mobile')
+                                ->default(fn() => Auth::user()->phone)
+                                ->label('Phone No'),
                         ])->columns(2),
 
-                    // Step 3: Contact person
+                    // Forms\Components\Wizard\Step::make('Head of Organization')
+                    //     ->schema([
+                    //         Forms\Components\TextInput::make('head_org_name')->required(),
+                    //         Forms\Components\Textarea::make('head_org_addr'),
+                    //         Forms\Components\TextInput::make('head_org_email')
+                    //             ->email()
+                    //             ->default(fn() => Auth::user()->email),
+                    //         Forms\Components\TextInput::make('head_org_website')->url(),
+                    //         Forms\Components\TextInput::make('head_org_mobile')->default(fn() => Auth::user()->phone),
+                    //     ])->columns(2),
+
                     Forms\Components\Wizard\Step::make('Contact Person')
                         ->schema([
-                            TextInput::make('cntct_prsn_name')->required(),
-                            Forms\Components\Textarea::make('cntct_prsn_addr'),
-                            TextInput::make('cntct_prsn_email')->email(),
-                            TextInput::make('cntct_prsn_mobile'),
-                            TextInput::make('cntct_prsn_watsapp')->label('WhatsApp No.'),
+                            Forms\Components\TextInput::make('cntct_prsn_name')
+                                ->required()
+                                ->label('Name'),
+                            Forms\Components\TextInput::make('cntct_prsn_name')
+                                ->required()
+                                ->label('Designation'),
+                            // Forms\Components\Textarea::make('cntct_prsn_addr'),
+                            Forms\Components\TextInput::make('cntct_prsn_mobile')
+                                ->default(fn() => Auth::user()->phone)
+                                ->Label('Mobile No'),
+                            Forms\Components\TextInput::make('cntct_prsn_watsapp')
+                                ->label('WhatsApp No.')
+                                ->default(fn() => Auth::user()->phone),
+                            Forms\Components\TextInput::make('cntct_prsn_email')
+                                ->email()
+                                ->default(fn() => Auth::user()->email)
+                                ->label('e-Mail Id'),
                         ])->columns(2),
 
-                    // Step 4: Other details
                     Forms\Components\Wizard\Step::make('Other')
                         ->schema([
                             Forms\Components\FileUpload::make('logo')
@@ -95,12 +106,13 @@ class UserProfileResource extends Resource
                                 ->image()
                                 ->maxSize(2048),
 
-                            TextInput::make('fascia')->required(),
+                            Forms\Components\TextInput::make('fascia')->required(),
                             Forms\Components\Textarea::make('remarks'),
                         ]),
                 ])
-                    ->skippable() // allow users to skip steps (optional)
-                    ->columnSpanFull(), // make the wizard span full width
+                    ->skippable()
+                    ->persistStepInQueryString() // keeps track of current step
+                    ->columnSpanFull(),
             ]);
     }
 
