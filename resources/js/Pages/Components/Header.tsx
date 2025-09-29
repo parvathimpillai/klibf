@@ -23,9 +23,7 @@ export default function Header({ auth }: HeaderProps) {
   return (
     <header
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-teal-600/90 backdrop-blur-md shadow-lg"
-          : "bg-teal-600"
+        scrolled ? "bg-teal-600/90 backdrop-blur-md shadow-lg" : "bg-teal-600"
       }`}
     >
       <div className="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
