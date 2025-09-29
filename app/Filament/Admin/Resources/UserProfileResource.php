@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
 
 class UserProfileResource extends Resource
 {
@@ -30,19 +31,19 @@ class UserProfileResource extends Resource
                 Forms\Components\Wizard::make([
                     Forms\Components\Wizard\Step::make('Organization')
                         ->schema([
-                            Forms\Components\TextInput::make('org_name')
+                            TextInput::make('org_name')
                                 ->label('Organisation Name')
                                 ->default(fn() => Auth::user()->name)
                                 ->required()
                                 ->minLength(3)
                                 ->live(debounce: 500), // auto-update when typing
-                            Forms\Components\TextInput::make('estb_year')->label('Year of Establishment'),
-                            Forms\Components\TextInput::make('reg_no')->label('Registration No.'),
-                            Forms\Components\TextInput::make('gst_no')->label('GST No.'),
-                            Forms\Components\TextInput::make('title_no')
+                            TextInput::make('estb_year')->label('Year of Establishment'),
+                            TextInput::make('reg_no')->label('Registration No.'),
+                            TextInput::make('gst_no')->label('GST No.'),
+                            TextInput::make('title_no')
                                 ->numeric()
                                 ->label('No. of Titles Published'),
-                            Forms\Components\TextInput::make('book_lang')->label('Language(s)'),
+                            TextInput::make('book_lang')->label('Language(s)'),
                             Forms\Components\Select::make('org_nature')
                                 ->label('Organisation Nature')
                                 ->options([
@@ -51,49 +52,37 @@ class UserProfileResource extends Resource
                                 ])
                                 ->required()
                                 ->live(),
-                            Forms\Components\TextInput::make('major_house_name')
+                            TextInput::make('major_house_name')
                                 ->label('Major Publishing House(s)')
                                 ->visible(fn($get) => $get('org_nature') === 'D'),
-                            Forms\Components\Textarea::make('org_addr')->label('Address'),
-                            Forms\Components\TextInput::make('org_email')
+                            Textarea::make('org_addr')->label('Address'),
+                            TextInput::make('org_email')
                                 ->label('e-Mail Id')
                                 ->email()
                                 ->default(fn() => Auth::user()->email),
-                            Forms\Components\TextInput::make('org_website')
+                            TextInput::make('org_website')
                                 ->url()
                                 ->label('Website URL (If Any)'),
-                            Forms\Components\TextInput::make('org_mobile')
+                            TextInput::make('org_mobile')
                                 ->default(fn() => Auth::user()->phone)
                                 ->label('Phone No'),
                         ])->columns(2),
 
-                    // Forms\Components\Wizard\Step::make('Head of Organization')
-                    //     ->schema([
-                    //         Forms\Components\TextInput::make('head_org_name')->required(),
-                    //         Forms\Components\Textarea::make('head_org_addr'),
-                    //         Forms\Components\TextInput::make('head_org_email')
-                    //             ->email()
-                    //             ->default(fn() => Auth::user()->email),
-                    //         Forms\Components\TextInput::make('head_org_website')->url(),
-                    //         Forms\Components\TextInput::make('head_org_mobile')->default(fn() => Auth::user()->phone),
-                    //     ])->columns(2),
-
                     Forms\Components\Wizard\Step::make('Contact Person')
                         ->schema([
-                            Forms\Components\TextInput::make('cntct_prsn_name')
+                            TextInput::make('cntct_prsn_name')
                                 ->required()
                                 ->label('Name'),
-                            Forms\Components\TextInput::make('cntct_prsn_desig')
+                            TextInput::make('cntct_prsn_desig')
                                 ->required()
                                 ->label('Designation'),
-                            // Forms\Components\Textarea::make('cntct_prsn_addr'),
-                            Forms\Components\TextInput::make('cntct_prsn_mobile')
+                            TextInput::make('cntct_prsn_mobile')
                                 ->default(fn() => Auth::user()->phone)
                                 ->Label('Mobile No'),
-                            Forms\Components\TextInput::make('cntct_prsn_whatsapp')
+                            TextInput::make('cntct_prsn_whatsapp')
                                 ->label('WhatsApp No.')
                                 ->default(fn() => Auth::user()->phone),
-                            Forms\Components\TextInput::make('cntct_prsn_email')
+                            TextInput::make('cntct_prsn_email')
                                 ->email()
                                 ->default(fn() => Auth::user()->email)
                                 ->label('e-Mail Id'),
@@ -106,7 +95,7 @@ class UserProfileResource extends Resource
                                 ->image()
                                 ->maxSize(2048),
 
-                            Forms\Components\TextInput::make('fascia')->required(),
+                            TextInput::make('fascia')->required(),
                             Forms\Components\Textarea::make('remarks'),
                         ]),
                 ])
